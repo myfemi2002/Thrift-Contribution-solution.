@@ -7,26 +7,15 @@ use App\Http\Controllers\SmtpController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RolesController;
-use App\Http\Controllers\CryptoController;
 
-use App\Http\Controllers\AboutUsController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\GroupNameController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\SeoSettingController;
 use App\Http\Controllers\AdminWalletController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\AdminDepositController;
-use App\Http\Controllers\MotherWalletController;
 use App\Http\Controllers\SystemSettingController;
-use App\Http\Controllers\BrokerAnalysisController;
-use App\Http\Controllers\UsdtTransactionController;
-use App\Http\Controllers\TradingSolutionsController;
-use App\Http\Controllers\FinancialInsightsController;
-use App\Http\Controllers\WalletHealthCheckController;
 use App\Http\Controllers\RoleWithPermissionController;
 
 /*
@@ -80,47 +69,33 @@ use App\Http\Controllers\RoleWithPermissionController;
     // All Admin Routes Middleware Starts Here
     Route::middleware(['auth', 'roles:admin'])->group(function () {
         
-     // Mother Wallet Management
-    Route::prefix('wallets/mother')->controller(MotherWalletController::class)->group(function () {
-        Route::get('/', 'index')->name('admin.wallets.mother.index');
-        Route::get('/create', 'create')->name('admin.wallets.mother.create');
-        Route::post('/store', 'store')->name('admin.wallets.mother.store');
-        Route::get('/edit/{id}', 'edit')->name('admin.wallets.mother.edit');
-        Route::post('/update/{id}', 'update')->name('admin.wallets.mother.update');
-        Route::get('/delete/{id}', 'destroy')->name('admin.wallets.mother.delete');
-    });
 
-    Route::prefix('admin-deposits')->controller(AdminDepositController::class)->group(function () {
-        Route::get('/', 'index')->name('admin.deposits.index');
-        Route::get('/show/{id}', 'show')->name('admin.deposits.show');
+
+    // Route::prefix('admin-deposits')->controller(AdminDepositController::class)->group(function () {
+    //     Route::get('/', 'index')->name('admin.deposits.index');
+    //     Route::get('/show/{id}', 'show')->name('admin.deposits.show');
         
-        // Confirmation pages (GET routes)
-        Route::get('/confirm-approve/{id}', 'confirmApprove')->name('admin.deposits.confirm-approve');
-        Route::get('/confirm-reject/{id}', 'confirmReject')->name('admin.deposits.confirm-reject');
-        Route::get('/confirm-verify/{id}', 'confirmVerify')->name('admin.deposits.confirm-verify');
+    //     // Confirmation pages (GET routes)
+    //     Route::get('/confirm-approve/{id}', 'confirmApprove')->name('admin.deposits.confirm-approve');
+    //     Route::get('/confirm-reject/{id}', 'confirmReject')->name('admin.deposits.confirm-reject');
+    //     Route::get('/confirm-verify/{id}', 'confirmVerify')->name('admin.deposits.confirm-verify');
         
-        // Action routes (POST routes)
-        Route::post('/approve/{id}', 'approve')->name('admin.deposits.approve');
-        Route::post('/reject/{id}', 'reject')->name('admin.deposits.reject');
-        Route::post('/verify-blockchain/{id}', 'verifyFromBlockchain')->name('admin.deposits.verify-blockchain');
+    //     // Action routes (POST routes)
+    //     Route::post('/approve/{id}', 'approve')->name('admin.deposits.approve');
+    //     Route::post('/reject/{id}', 'reject')->name('admin.deposits.reject');
+    //     Route::post('/verify-blockchain/{id}', 'verifyFromBlockchain')->name('admin.deposits.verify-blockchain');
 
-        // Admin Deposit Appeals Routes
-        Route::get('/appeals', 'appeals')->name('admin.deposits.appeals');
-        Route::get('/appeals-show/{id}', 'showAppeal')->name('admin.deposits.appeals.show');
-        Route::post('/appeals-approve/{id}', 'approveAppeal')->name('admin.deposits.appeals.approve');
-        Route::post('/appeals-reject/{id}', 'rejectAppeal')->name('admin.deposits.appeals.reject');
+    //     // Admin Deposit Appeals Routes
+    //     Route::get('/appeals', 'appeals')->name('admin.deposits.appeals');
+    //     Route::get('/appeals-show/{id}', 'showAppeal')->name('admin.deposits.appeals.show');
+    //     Route::post('/appeals-approve/{id}', 'approveAppeal')->name('admin.deposits.appeals.approve');
+    //     Route::post('/appeals-reject/{id}', 'rejectAppeal')->name('admin.deposits.appeals.reject');
 
-        // Admin Transaction routes
-        Route::get('/deposits/transaction-logs',  'transactionLogs')->name('admin.deposits.transaction-logs');
-    });
+    //     // Admin Transaction routes
+    //     Route::get('/deposits/transaction-logs',  'transactionLogs')->name('admin.deposits.transaction-logs');
+    // });
 
-
-
-    
-
-
-
-            
+           
 
 
         // GroupName Management
@@ -189,17 +164,17 @@ use App\Http\Controllers\RoleWithPermissionController;
 
 
 
-        Route::prefix('wallet')->controller(DepositController::class)->group(function () {
-            Route::get('/deposit', 'showDepositForm')->name('user.wallet.deposit');
-            Route::post('/verify-deposit', 'verifyDeposit')->name('user.wallet.verify-deposit');
-            // User Deposit Appeal Routes         
-            Route::get('/appeal/{id}', 'showAppealForm')->name('user.wallet.deposit.appeal.form');
-            Route::post('/appeal/{id}', 'submitAppeal')->name('user.wallet.deposit.appeal.submit');
-            Route::get('/appeal/view/{id}', 'viewAppeal')->name('user.wallet.deposit.appeal.view');
+        // Route::prefix('wallet')->controller(DepositController::class)->group(function () {
+        //     Route::get('/deposit', 'showDepositForm')->name('user.wallet.deposit');
+        //     Route::post('/verify-deposit', 'verifyDeposit')->name('user.wallet.verify-deposit');
+        //     // User Deposit Appeal Routes         
+        //     Route::get('/appeal/{id}', 'showAppealForm')->name('user.wallet.deposit.appeal.form');
+        //     Route::post('/appeal/{id}', 'submitAppeal')->name('user.wallet.deposit.appeal.submit');
+        //     Route::get('/appeal/view/{id}', 'viewAppeal')->name('user.wallet.deposit.appeal.view');
 
-            // User routes
-            Route::get('/deposit/transaction-logs', 'depositTransactionLogs')->name('user.wallet.deposit.transaction-logs');
-        });
+        //     // User routes
+        //     Route::get('/deposit/transaction-logs', 'depositTransactionLogs')->name('user.wallet.deposit.transaction-logs');
+        // });
 
 
 
@@ -217,18 +192,6 @@ use App\Http\Controllers\RoleWithPermissionController;
         Route::post('/register/store',  'register')->name('auth.register.store');
     });
 
-
-
-    // Static Pages Routes
-    Route::get('/trading-solutions', [TradingSolutionsController::class, 'tradingSolutions'])->name('trading-solutions.index');
-
-    Route::get('/financial-insights', [FinancialInsightsController::class, 'financialInsights'])->name('financial-insights.index');
-
-    Route::get('/broker-analysis', [BrokerAnalysisController::class, 'brokerAnalysis'])->name('broker-analysis.index');
-
-    Route::get('/about-us', [AboutUsController::class, 'aboutUs'])->name('about-us.index');
-
-    Route::get('/contact-us', [ContactUsController::class, 'ContactUs'])->name('contact-us.index');
 
 
 

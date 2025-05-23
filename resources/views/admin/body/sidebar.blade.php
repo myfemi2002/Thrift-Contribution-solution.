@@ -14,27 +14,12 @@
 
                 <li>
                     
-                    <a href="{{ route('admin.wallets.mother.index') }}">
+                    <a href="#">
                         <i class="fe fe-credit-card"></i> <span>Mother Wallets</span>
                     </a>
                 </li>
 
-                <!-- USDT Wallet -->
-                <li class="submenu">
-                    <a href="#"><i class="fe fe-sidebar"></i> <span>Deposit </span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="{{ route('admin.deposits.index') }}">Deposits</a></li>
-                        <li>
-                            <a href="{{ route('admin.deposits.appeals') }}">
-                                Deposit Appeals
-                                @if($pendingAppealsCount > 0)
-                                    <span class="badge bg-warning text-dark rounded-pill ms-2">{{ $pendingAppealsCount }}</span>
-                                @endif
-                            </a>
-                        </li>
-                        <li><a href="{{ route('admin.deposits.transaction-logs') }}">Transaction Logs</a></li>
-                    </ul>
-                </li>
+
 
                 <!-- Users -->
                 <li class="submenu">
