@@ -1,566 +1,317 @@
 @extends('userend.user_home')
 @section('title', 'Dashboard')
 @section('user_content')
-@php
-$assetBase = asset('backend/assets/');
-@endphp
 
-<div class="container-fluid">
-    <!-- Stats Overview Cards -->
-    <div class="row mb-4">
-        <div class="col-xl-3 col-md-6 mb-3">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Balance</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">${{ number_format($dashboardData['balance'], 2) }} USDT</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-wallet fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-xl-3 col-md-6 mb-3">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Deposits</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">${{ number_format($dashboardData['totalDeposits'], 2) }} USDT</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-xl-3 col-md-6 mb-3">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pending Deposits</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">${{ number_format($dashboardData['pendingDeposits'], 2) }} USDT</div>
+                  <div class="container-xl wide-lg">
+                     <div class="nk-content-body">
+                        <div class="nk-block-head">
+                           <div class="nk-block-head-sub"><span>Welcome!</span></div>
+                           <div class="nk-block-between-md g-4">
+                              <div class="nk-block-head-content">
+                                 <h2 class="nk-block-title fw-normal">Abu Bin Ishityak</h2>
+                                 <div class="nk-block-des">
+                                    <p>At a glance summary of your account. Have fun!</p>
+                                 </div>
+                              </div>
+                              <div class="nk-block-head-content">
+                                 <ul class="nk-block-tools gx-3">
+                                    <li><a href="profile.html" class="btn btn-primary"><span>Profile</span> <em class="icon ni ni-arrow-long-right"></em></a></li>
+                                    <li><a href="security-settings.html" class="btn btn-white btn-light btn-icon"><em class="icon ni ni-setting"></em></a></li>
+                                 </ul>
+                              </div>
+                           </div>
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6 mb-3">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Wallet Address</div>
-                            <div class="h6 mb-0 font-weight-bold text-gray-800 text-truncate" title="{{ $dashboardData['walletAddress'] }}">
-                                {{ Str::limit($dashboardData['walletAddress'], 15) }}
-                                <button class="btn btn-sm btn-link p-0 ml-1" onclick="copyAddress('{{ $dashboardData['walletAddress'] }}')">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-qrcode fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Account Summary Card -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary">Account Summary</h6>
-                    <div class="account-status">
-                        <span class="badge bg-primary">Free member</span>
-                        <a href="#" class="btn btn-sm btn-warning ms-2">
-                            <i class="fas fa-crown me-1"></i> UPGRADE NOW
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-4 mb-3">
-                            <div class="card border-0 bg-light h-100">
-                                <div class="card-body">
-                                    <h6 class="text-muted mb-3">Account Details</h6>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item bg-light d-flex justify-content-between px-0">
-                                            <span>Join date:</span>
-                                            <span class="text-dark">{{ $dashboardData['joinDate'] }}</span>
-                                        </li>
-                                        <li class="list-group-item bg-light d-flex justify-content-between px-0">
-                                            <span>Last login:</span>
-                                            <span class="text-dark">{{ $dashboardData['lastLogin'] }}</span>
-                                        </li>
-                                        <li class="list-group-item bg-light d-flex justify-content-between px-0">
-                                            <span>IP Address:</span>
-                                            <span class="text-dark">{{ $dashboardData['ipAddress'] }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="card border-0 bg-light h-100">
-                                <div class="card-body">
-                                    <h6 class="text-muted mb-3">Financial Overview</h6>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item bg-light d-flex justify-content-between px-0">
-                                            <span>Balance:</span>
-                                            <span class="fw-bold text-primary">${{ number_format($dashboardData['balance'], 2) }} USDT</span>
-                                        </li>
-                                        <li class="list-group-item bg-light d-flex justify-content-between px-0">
-                                            <span>Total deposits:</span>
-                                            <span class="text-success">${{ number_format($dashboardData['totalDeposits'], 2) }} USDT</span>
-                                        </li>
-                                        <li class="list-group-item bg-light d-flex justify-content-between px-0">
-                                            <span>Pending deposits:</span>
-                                            <span class="text-warning">${{ number_format($dashboardData['pendingDeposits'], 2) }} USDT</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="card border-0 bg-light h-100">
-                                <div class="card-body">
-                                    <h6 class="text-muted mb-3">Wallet Information</h6>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item bg-light d-flex justify-content-between px-0">
-                                            <span>Wallet Address:</span>
-                                            <span class="text-dark">{{ $dashboardData['walletAddress'] }}</span>
-                                        </li>
-                                        <li class="list-group-item bg-light d-flex justify-content-between px-0">
-                                            <span>Wallet status:</span>
-                                            @if($dashboardData['wallet'])
-                                                <span class="badge bg-success">Active</span>
-                                            @else
-                                                <span class="badge bg-danger">Not assigned</span>
-                                            @endif
-                                        </li>
-                                        <li class="list-group-item bg-light d-flex justify-content-between px-0">
-                                            <span>Created:</span>
-                                            <span class="text-dark">{{ $dashboardData['wallet'] ? $dashboardData['wallet']->created_at->format('d/m/Y') : 'N/A' }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Deposit Chart -->
-    <div class="row mb-4">
-        <div class="col-xl-8 col-lg-7">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Deposits Overview</h6>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="depositChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Deposit Status</h6>
-                </div>
-                <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="depositStatusChart"></canvas>
-                    </div>
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Confirmed
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-warning"></i> Pending
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-danger"></i> Rejected
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow border-0">
-                <div class="card-header py-3 bg-white">
-                    <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6 mb-3">
-                            <a href="{{ route('user.wallet.deposit') }}" class="text-decoration-none">
-                                <div class="card h-100 border-0 shadow-sm hover-card">
-                                    <div class="card-body text-center py-4">
-                                        <div class="icon-circle bg-primary text-white mb-3 mx-auto">
-                                            <i class="fas fa-wallet"></i>
-                                        </div>
-                                        <h6 class="card-title mb-1">Deposit Funds</h6>
-                                        <p class="card-text small text-muted">Add USDT to your wallet</p>
+                        <div class="nk-block">
+                           <div class="row gy-gs">
+                              <div class="col-12 col-xxl-8">
+                                 <div class="card card-bordered h-100">
+                                    <div class="card-inner border-bottom">
+                                       <div class="card-title-group">
+                                          <div class="card-title">
+                                             <h6 class="title">Transaction History</h6>
+                                          </div>
+                                          <div class="card-tools"><a href="#" class="link">See Details</a></div>
+                                       </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                        
-                        <div class="col-md-3 col-sm-6 mb-3">
-                            <a href="#" class="text-decoration-none">
-                                <div class="card h-100 border-0 shadow-sm hover-card">
-                                    <div class="card-body text-center py-4">
-                                        <div class="icon-circle bg-info text-white mb-3 mx-auto">
-                                            <i class="fas fa-history"></i>
-                                        </div>
-                                        <h6 class="card-title mb-1">Transaction History</h6>
-                                        <p class="card-text small text-muted">View all transactions</p>
+                                    <div class="card-inner p-0">
+                                       <table class="table table-tranx">
+                                          <thead>
+                                             <tr class="tb-tnx-head">
+                                                <th class="tb-tnx-id"><span class="">#</span></th>
+                                                <th class="tb-tnx-info"><span class="tb-tnx-desc d-none d-sm-inline-block"><span>Loan Type</span></span><span class="tb-tnx-date d-md-inline-block d-none"><span class="d-md-none">Date</span><span class="d-none d-md-block"><span>Date</span></span></span></th>
+                                                <th class="tb-tnx-amount is-alt"><span class="tb-tnx-total">Amount</span><span class="tb-tnx-status d-none d-md-inline-block">Status</span></th>
+                                                <th class="tb-tnx-action"><span>&nbsp;</span></th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr class="tb-tnx-item">
+                                                <td class="tb-tnx-id"><a href="#"><span>4947</span></a></td>
+                                                <td class="tb-tnx-info">
+                                                   <div class="tb-tnx-desc"><span class="title">Credit Card Payment</span></div>
+                                                   <div class="tb-tnx-date"><span class="date">10-05-2021</span></div>
+                                                </td>
+                                                <td class="tb-tnx-amount is-alt">
+                                                   <div class="tb-tnx-total"><span>$2599.00</span></div>
+                                                   <div class="tb-tnx-status"><span class="badge badge-dot text-warning">Pending</span></div>
+                                                </td>
+                                                <td class="tb-tnx-action">
+                                                   <div class="dropdown">
+                                                      <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                      <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+                                                         <ul class="link-list-plain">
+                                                            <li><a href="#">View</a></li>
+                                                            <li><a href="#">Remove</a></li>
+                                                         </ul>
+                                                      </div>
+                                                   </div>
+                                                </td>
+                                             </tr>
+                                             <tr class="tb-tnx-item">
+                                                <td class="tb-tnx-id"><a href="#"><span>5763</span></a></td>
+                                                <td class="tb-tnx-info">
+                                                   <div class="tb-tnx-desc"><span class="title">Cash Payment</span></div>
+                                                   <div class="tb-tnx-date"><span class="date">18-06-2021</span></div>
+                                                </td>
+                                                <td class="tb-tnx-amount is-alt">
+                                                   <div class="tb-tnx-total"><span>$1200.70</span></div>
+                                                   <div class="tb-tnx-status"><span class="badge badge-dot text-success">Completed</span></div>
+                                                </td>
+                                                <td class="tb-tnx-action">
+                                                   <div class="dropdown">
+                                                      <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                      <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+                                                         <ul class="link-list-plain">
+                                                            <li><a href="#">View</a></li>
+                                                            <li><a href="#">Remove</a></li>
+                                                         </ul>
+                                                      </div>
+                                                   </div>
+                                                </td>
+                                             </tr>
+                                             <tr class="tb-tnx-item">
+                                                <td class="tb-tnx-id"><a href="#"><span>4893</span></a></td>
+                                                <td class="tb-tnx-info">
+                                                   <div class="tb-tnx-desc"><span class="title">Insurance Payment Check</span></div>
+                                                   <div class="tb-tnx-date"><span class="date">07-04-2021</span></div>
+                                                </td>
+                                                <td class="tb-tnx-amount is-alt">
+                                                   <div class="tb-tnx-total"><span>$1500.50</span></div>
+                                                   <div class="tb-tnx-status"><span class="badge badge-dot text-success">Completed</span></div>
+                                                </td>
+                                                <td class="tb-tnx-action">
+                                                   <div class="dropdown">
+                                                      <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                      <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+                                                         <ul class="link-list-plain">
+                                                            <li><a href="#">View</a></li>
+                                                            <li><a href="#">Remove</a></li>
+                                                         </ul>
+                                                      </div>
+                                                   </div>
+                                                </td>
+                                             </tr>
+                                             <tr class="tb-tnx-item">
+                                                <td class="tb-tnx-id"><a href="#"><span>5687</span></a></td>
+                                                <td class="tb-tnx-info">
+                                                   <div class="tb-tnx-desc"><span class="title">Patient Financing Payment</span></div>
+                                                   <div class="tb-tnx-date"><span class="date">12-08-2021</span></div>
+                                                </td>
+                                                <td class="tb-tnx-amount is-alt">
+                                                   <div class="tb-tnx-total"><span>$1999.00</span></div>
+                                                   <div class="tb-tnx-status"><span class="badge badge-dot text-warning">Panding</span></div>
+                                                </td>
+                                                <td class="tb-tnx-action">
+                                                   <div class="dropdown">
+                                                      <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                      <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+                                                         <ul class="link-list-plain">
+                                                            <li><a href="#">View</a></li>
+                                                            <li><a href="#">Remove</a></li>
+                                                         </ul>
+                                                      </div>
+                                                   </div>
+                                                </td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
                                     </div>
-                                </div>
-                            </a>
+                                 </div>
+                              </div>
+                              <div class="col-md-6 col-xxl-4">
+                                 <div class="card card-bordered h-100">
+                                    <div class="card-inner pb-0">
+                                       <div class="card-title-group pt-1">
+                                          <div class="card-title">
+                                             <h6 class="title">EMI Overview</h6>
+                                          </div>
+                                          <div class="card-tools"><a href="loan-details.html" class="link">See Details</a></div>
+                                       </div>
+                                    </div>
+                                    <div class="card-inner pt-0">
+                                       <div class="invest-ov gy-1">
+                                          <div class="subtitle">Activated Loan EMI</div>
+                                          <div class="invest-ov-details">
+                                             <div class="invest-ov-stats">
+                                                <div><span class="amount d-flex align-items-end text-primary">52<span class="sub-text ps-1"> Weeks</span></span></div>
+                                                <div class="title">Total EMI</div>
+                                             </div>
+                                             <div class="invest-ov-info">
+                                                <div class="amount">3560.395 <span class="currency currency-usd">USD</span></div>
+                                                <div class="title">Amount</div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="invest-ov gy-1">
+                                          <div class="subtitle">EMI Status</div>
+                                          <div class="invest-ov-details">
+                                             <div class="invest-ov-info">
+                                                <div><span class="amount text-success">39</span></div>
+                                                <div class="title">Paid</div>
+                                             </div>
+                                             <div class="invest-ov-info">
+                                                <div><span class="amount text-warning">13</span></div>
+                                                <div class="title">Due</div>
+                                             </div>
+                                             <div class="invest-ov-info">
+                                                <div><span class="date">13-05-2021</span></div>
+                                                <div class="title">Next EMI Date</div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="invest-ov">
+                                          <div class="subtitle">EMI Status</div>
+                                          <div class="progress progress-lg mt-3">
+                                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" data-progress="65">65%</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-md-6 col-xxl-4">
+                                 <div class="card card-bordered h-100">
+                                    <div class="pricing recommend">
+                                       <span class="pricing-badge badge bg-success">Popular</span>
+                                       <div class="pricing-head">
+                                          <div class="pricing-title">
+                                             <h4 class="card-title title">Pro</h4>
+                                             <p class="sub-text">Enjoy entry level of loan.</p>
+                                          </div>
+                                          <div class="card-text">
+                                             <div class="row">
+                                                <div class="col-6"><span class="h4 fw-500">0.75%</span><span class="sub-text">Weekly Interest</span></div>
+                                                <div class="col-6"><span class="h4 fw-500">2500 USD</span><span class="sub-text">Amount</span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="pricing-body">
+                                          <ul class="pricing-features">
+                                             <li><span class="w-50">Min Amount</span> - <span class="ms-auto">2500 USD</span></li>
+                                             <li><span class="w-50">Loan Tenure</span> - <span class="ms-auto">Max 2 years</span></li>
+                                             <li><span class="w-50">Interest Rates</span> - <span class="ms-auto">Competitive</span></li>
+                                          </ul>
+                                          <ul class="pricing-action">
+                                             <li><a href="loan-package.html" class="btn btn-primary">Learn Details</a></li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-md-6 col-xxl-4">
+                                 <div class="card card-bordered h-100">
+                                    <div class="card-inner pb-0">
+                                       <div class="card-title-group pt-1">
+                                          <div class="card-title">
+                                             <h6 class="title">Notifications</h6>
+                                          </div>
+                                          <div class="card-tools"><a href="/demo5/loan/accounts.html" class="link">View All</a></div>
+                                       </div>
+                                    </div>
+                                    <div class="card-inner">
+                                       <div class="timeline">
+                                          <ul class="timeline-list">
+                                             <li class="timeline-item">
+                                                <div class="timeline-status bg-primary is-outline"></div>
+                                                <div class="timeline-date">9 Sept <em class="icon ni ni-alarm-alt"></em></div>
+                                                <div class="timeline-data">
+                                                   <h6 class="timeline-title">Updated loan documents</h6>
+                                                   <div class="timeline-des">
+                                                      <p>Applicant documents updated</p>
+                                                      <span class="time">10:30am</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="timeline-item">
+                                                <div class="timeline-status bg-primary"></div>
+                                                <div class="timeline-date">2 Sept <em class="icon ni ni-alarm-alt"></em></div>
+                                                <div class="timeline-data">
+                                                   <h6 class="timeline-title">Added new package</h6>
+                                                   <div class="timeline-des">
+                                                      <p>Package updated with discount</p>
+                                                      <span class="time">09:50am</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                             <li class="timeline-item">
+                                                <div class="timeline-status bg-pink"></div>
+                                                <div class="timeline-date">22 Aug <em class="icon ni ni-alarm-alt"></em></div>
+                                                <div class="timeline-data">
+                                                   <h6 class="timeline-title">Approved loan application</h6>
+                                                   <div class="timeline-des">
+                                                      <p>Application approved.</p>
+                                                      <span class="time">11:20am</span>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-md-6 col-xxl-4">
+                                 <div class="card card-bordered h-100">
+                                    <div class="card-inner card-inner-lg">
+                                       <div class="align-center flex-wrap g-4">
+                                          <div class="nk-block-image w-120px flex-shrink-0">
+                                             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 118">
+                                                <path d="M8.916,94.745C-.318,79.153-2.164,58.569,2.382,40.578,7.155,21.69,19.045,9.451,35.162,4.32,46.609.676,58.716.331,70.456,1.845,84.683,3.68,99.57,8.694,108.892,21.408c10.03,13.679,12.071,34.71,10.747,52.054-1.173,15.359-7.441,27.489-19.231,34.494-10.689,6.351-22.92,8.733-34.715,10.331-16.181,2.192-34.195-.336-47.6-12.281A47.243,47.243,0,0,1,8.916,94.745Z" transform="translate(0 -1)" fill="#f6faff"></path>
+                                                <rect x="18" y="32" width="84" height="50" rx="4" ry="4" fill="#fff"></rect>
+                                                <rect x="26" y="44" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                                <rect x="50" y="44" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                                <rect x="74" y="44" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                                <rect x="38" y="60" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                                <rect x="62" y="60" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                                <path d="M98,32H22a5.006,5.006,0,0,0-5,5V79a5.006,5.006,0,0,0,5,5H52v8H45a2,2,0,0,0-2,2v4a2,2,0,0,0,2,2H73a2,2,0,0,0,2-2V94a2,2,0,0,0-2-2H66V84H98a5.006,5.006,0,0,0,5-5V37A5.006,5.006,0,0,0,98,32ZM73,94v4H45V94Zm-9-2H54V84H64Zm37-13a3,3,0,0,1-3,3H22a3,3,0,0,1-3-3V37a3,3,0,0,1,3-3H98a3,3,0,0,1,3,3Z" transform="translate(0 -1)" fill="#798bff"></path>
+                                                <path d="M61.444,41H40.111L33,48.143V19.7A3.632,3.632,0,0,1,36.556,16H61.444A3.632,3.632,0,0,1,65,19.7V37.3A3.632,3.632,0,0,1,61.444,41Z" transform="translate(0 -1)" fill="#6576ff"></path>
+                                                <path d="M61.444,41H40.111L33,48.143V19.7A3.632,3.632,0,0,1,36.556,16H61.444A3.632,3.632,0,0,1,65,19.7V37.3A3.632,3.632,0,0,1,61.444,41Z" transform="translate(0 -1)" fill="none" stroke="#6576ff" stroke-miterlimit="10" stroke-width="2"></path>
+                                                <line x1="40" y1="22" x2="57" y2="22" fill="none" stroke="#fffffe" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                                                <line x1="40" y1="27" x2="57" y2="27" fill="none" stroke="#fffffe" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                                                <line x1="40" y1="32" x2="50" y2="32" fill="none" stroke="#fffffe" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                                                <line x1="30.5" y1="87.5" x2="30.5" y2="91.5" fill="none" stroke="#9cabff" stroke-linecap="round" stroke-linejoin="round"></line>
+                                                <line x1="28.5" y1="89.5" x2="32.5" y2="89.5" fill="none" stroke="#9cabff" stroke-linecap="round" stroke-linejoin="round"></line>
+                                                <line x1="79.5" y1="22.5" x2="79.5" y2="26.5" fill="none" stroke="#9cabff" stroke-linecap="round" stroke-linejoin="round"></line>
+                                                <line x1="77.5" y1="24.5" x2="81.5" y2="24.5" fill="none" stroke="#9cabff" stroke-linecap="round" stroke-linejoin="round"></line>
+                                                <circle cx="90.5" cy="97.5" r="3" fill="none" stroke="#9cabff" stroke-miterlimit="10"></circle>
+                                                <circle cx="24" cy="23" r="2.5" fill="none" stroke="#9cabff" stroke-miterlimit="10"></circle>
+                                             </svg>
+                                          </div>
+                                          <div class="nk-block-content">
+                                             <div class="nk-block-content-head">
+                                                <h5>We’re here to help you!</h5>
+                                                <p class="text-soft">Ask a question or file a support ticket, manage request, report an issues. Our team support team will get back to you by email.</p>
+                                             </div>
+                                          </div>
+                                          <div class="nk-block-content flex-shrink-0"><a href="#" class="btn btn-lg btn-outline-primary">Get Support Now</a></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                         </div>
+                     </div>
+                  </div>
 
-                        <div class="col-md-3 col-sm-6 mb-3">
-                            <a href="#" class="text-decoration-none">
-                                <div class="card h-100 border-0 shadow-sm hover-card">
-                                    <div class="card-body text-center py-4">
-                                        <div class="icon-circle bg-success text-white mb-3 mx-auto">
-                                            <i class="fas fa-hand-holding-usd"></i>
-                                        </div>
-                                        <h6 class="card-title mb-1">Withdraw</h6>
-                                        <p class="card-text small text-muted">Cash out funds</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        
-                        <div class="col-md-3 col-sm-6 mb-3">
-                            <a href="#" class="text-decoration-none">
-                                <div class="card h-100 border-0 shadow-sm hover-card">
-                                    <div class="card-body text-center py-4">
-                                        <div class="icon-circle bg-warning text-white mb-3 mx-auto">
-                                            <i class="fas fa-user-check"></i>
-                                        </div>
-                                        <h6 class="card-title mb-1">Account Settings</h6>
-                                        <p class="card-text small text-muted">Update your profile</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Recent Transactions -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary">Recent Deposits</h6>
-                    <div>
-                        <a href="#" class="btn btn-sm btn-primary">
-                            <i class="fas fa-eye fa-sm"></i> View All
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                       
-                        <table class="table table-hover mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Transaction ID</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($recentDeposits as $deposit)
-                                <tr>
-                                    <td>{{ $deposit->created_at->format('M d, Y H:i') }}</td>
-                                    <td>
-                                        <span class="text-truncate d-inline-block" style="max-width: 150px;" title="{{ $deposit->tx_id }}">
-                                            {{ Str::limit($deposit->tx_id, 15) }}
-                                        </span>
-                                    </td>
-                                    <td>{{ number_format($deposit->amount, 6) }} USDT</td>
-                                    <td>
-                                        @if($deposit->status === 'pending')
-                                            <span style="background-color: #ffc107; color: #212529; padding: 0.25em 0.6em; border-radius: 0.25rem;">Pending</span>
-                                        @elseif($deposit->status === 'confirmed')
-                                            <span style="background-color: #28a745; color: #fff; padding: 0.25em 0.6em; border-radius: 0.25rem;">Confirmed</span>
-                                        @elseif($deposit->status === 'rejected')
-                                            <span style="background-color: #dc3545; color: #fff; padding: 0.25em 0.6em; border-radius: 0.25rem;">Rejected</span>
-                                            @if($deposit->appeal_status === 'pending')
-                                                <span style="background-color: #17a2b8; color: #fff; padding: 0.25em 0.6em; border-radius: 0.25rem; font-size: 0.75em; margin-left: 5px;">Appeal Pending</span>
-                                            @elseif($deposit->appeal_status === 'approved')
-                                                <span style="background-color: #28a745; color: #fff; padding: 0.25em 0.6em; border-radius: 0.25rem; font-size: 0.75em; margin-left: 5px;">Appeal Approved</span>
-                                            @elseif($deposit->appeal_status === 'rejected')
-                                                <span style="background-color: #dc3545; color: #fff; padding: 0.25em 0.6em; border-radius: 0.25rem; font-size: 0.75em; margin-left: 5px;">Appeal Rejected</span>
-                                            @endif
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($deposit->status === 'rejected' && $deposit->isEligibleForAppeal())
-                                            <a href="{{ route('user.wallet.deposit.appeal.form', $deposit->id) }}" class="btn btn-sm btn-outline-primary">
-                                                <i class="fa fa-file-alt mr-1"></i> Appeal
-                                            </a>
-                                        @elseif($deposit->appeal_status === 'pending')
-                                            <a href="{{ route('user.wallet.deposit.appeal.view', $deposit->id) }}" class="btn btn-sm btn-outline-info">
-                                                <i class="fa fa-eye mr-1"></i> View Appeal
-                                            </a>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    @if($recentDeposits->hasPages())
-                        <div class="mt-3">
-                            {{ $recentDeposits->links('pagination::bootstrap-5') }}
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 @endsection
-
-@push('css')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<style>
-    /* Card hover effect */
-    .hover-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .hover-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-    }
-    
-    /* Icon circles */
-    .icon-circle {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    /* Card border accents */
-    .border-left-primary {
-        border-left: 4px solid #4e73df !important;
-    }
-    
-    .border-left-success {
-        border-left: 4px solid #1cc88a !important;
-    }
-    
-    .border-left-info {
-        border-left: 4px solid #36b9cc !important;
-    }
-    
-    .border-left-warning {
-        border-left: 4px solid #f6c23e !important;
-    }
-    
-    /* Table styles */
-    .table {
-        font-size: 0.85rem;
-    }
-    
-    .table td, .table th {
-        vertical-align: middle;
-    }
-    
-    /* Badge styles */
-    .badge {
-        font-weight: 500;
-        padding: 0.4em 0.8em;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .account-status {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        
-        .account-status .btn {
-            margin-top: 0.5rem;
-            margin-left: 0 !important;
-        }
-    }
-    
-    /* Chart container */
-    .chart-area {
-        position: relative;
-        height: 300px;
-        width: 100%;
-    }
-    
-    .chart-pie {
-        position: relative;
-        height: 240px;
-        width: 100%;
-    }
-</style>
-@endpush
-
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Copy wallet address function
-    function copyAddress(address) {
-        navigator.clipboard.writeText(address).then(function() {
-            // Show toast or notification
-            alert('Wallet address copied to clipboard');
-        }, function(err) {
-            console.error('Could not copy address: ', err);
-            alert('Failed to copy wallet address. Please try manually.');
-        });
-    }
-    
-    $(document).ready(function() {
-        // Initialize tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
-        
-        // Line Chart for Deposits
-        var ctx = document.getElementById("depositChart");
-        var months = {!! $dashboardData['chartMonths'] !!};
-        var values = {!! $dashboardData['chartValues'] !!};
-        
-        if (months.length === 0) {
-            // Add dummy data if no deposits
-            months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-            values = [0, 0, 0, 0, 0, 0];
-        }
-        
-        var depositChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: months,
-                datasets: [{
-                    label: "Deposits",
-                    lineTension: 0.3,
-                    backgroundColor: "rgba(78, 115, 223, 0.05)",
-                    borderColor: "rgba(78, 115, 223, 1)",
-                    pointRadius: 3,
-                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                    pointBorderColor: "rgba(78, 115, 223, 1)",
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                    pointHitRadius: 10,
-                    pointBorderWidth: 2,
-                    data: values,
-                }],
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return '$' + context.parsed.y.toFixed(2) + ' USDT';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            callback: function(value) {
-                                return '$' + value + ' USDT';
-                            }
-                        },
-                        grid: {
-                            color: "rgb(234, 236, 244)",
-                            zeroLineColor: "rgb(234, 236, 244)",
-                            drawBorder: false,
-                            borderDash: [2],
-                            zeroLineBorderDash: [2]
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Pie Chart for Deposit Status
-        var ctxPie = document.getElementById("depositStatusChart");
-        var depositStatusChart = new Chart(ctxPie, {
-            type: 'pie',
-            data: {
-                labels: ["Confirmed", "Pending", "Rejected"],
-                datasets: [{
-                    data: [
-                        {{ $dashboardData['totalDeposits'] ?: 0 }}, 
-                        {{ $dashboardData['pendingDeposits'] ?: 0 }}, 
-                        {{ $dashboardData['rejectedDeposits'] ?: 0 }}
-                    ],
-                    backgroundColor: ['#1cc88a', '#f6c23e', '#e74a3b'],
-                    hoverBackgroundColor: ['#17a673', '#e8bc4a', '#d13d2d'],
-                    hoverBorderColor: "rgba(234, 236, 244, 1)",
-                }],
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': $' + context.parsed.toFixed(2) + ' USDT';
-                            }
-                        }
-                    }
-                }
-            },
-        });
-    });
-</script>
-@endpush

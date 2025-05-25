@@ -1,555 +1,128 @@
 @extends('admin.admin_master')
 @section('title', 'Dashboard')
 @section('admin')
-@php
-$assetBase = asset('backend/assets/');
-@endphp
 
-
-
-<div class="content container-fluid">
-					<div class="row">
-						<div class="col-xl-3 col-sm-6 col-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="dash-widget-header">
-										<span class="dash-widget-icon bg-1">
-											<i class="fas fa-dollar-sign"></i>
-										</span>
-										<div class="dash-count">
-											<div class="dash-title">Amount Due</div>
-											<div class="dash-counts">
-												<p>1,642</p>
-											</div>
-										</div>
-									</div>
-									<div class="progress progress-sm mt-3">
-										<div class="progress-bar bg-5" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									<p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i class="fas fa-arrow-down me-1"></i>1.15%</span> since last week</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-3 col-sm-6 col-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="dash-widget-header">
-										<span class="dash-widget-icon bg-2">
-											<i class="fas fa-users"></i>
-										</span>
-										<div class="dash-count">
-											<div class="dash-title">Customers</div>
-											<div class="dash-counts">
-												<p>3,642</p>
-											</div>
-										</div>
-									</div>
-									<div class="progress progress-sm mt-3">
-										<div class="progress-bar bg-6" role="progressbar" style="width: 65%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									<p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i class="fas fa-arrow-up me-1"></i>2.37%</span> since last week</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-3 col-sm-6 col-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="dash-widget-header">
-										<span class="dash-widget-icon bg-3">
-											<i class="fas fa-file-alt"></i>
-										</span>
-										<div class="dash-count">
-											<div class="dash-title">Invoices</div>
-											<div class="dash-counts">
-												<p>1,041</p>
-											</div>
-										</div>
-									</div>
-									<div class="progress progress-sm mt-3">
-										<div class="progress-bar bg-7" role="progressbar" style="width: 85%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									<p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i class="fas fa-arrow-up me-1"></i>3.77%</span> since last week</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-3 col-sm-6 col-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="dash-widget-header">
-										<span class="dash-widget-icon bg-4">
-											<i class="far fa-file"></i>
-										</span> 
-										<div class="dash-count">
-											<div class="dash-title">Estimates</div>
-											<div class="dash-counts">
-												<p>2,150</p>
-											</div>
-										</div>
-									</div>
-									<div class="progress progress-sm mt-3">
-										<div class="progress-bar bg-8" role="progressbar" style="width: 45%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									<p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i class="fas fa-arrow-down me-1"></i>8.68%</span> since last week</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="row">
-						<div class="col-xl-7 d-flex">
-							<div class="card flex-fill">
-								<div class="card-header">
-									<div class="d-flex justify-content-between align-items-center">
-										<h5 class="card-title">Sales Analytics</h5>
-
-										<div class="dropdown main">
-											<button class="btn btn-white btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-												Monthly
-											</button>
-											<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-												<li>
-													<a href="javascript:void(0);" class="dropdown-item">Weekly</a>
-												</li>
-												<li>
-													<a href="javascript:void(0);" class="dropdown-item">Monthly</a>
-												</li>
-												<li>
-													<a href="javascript:void(0);" class="dropdown-item">Yearly</a>
-												</li>												
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="card-body">
-									<div class="d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
-										<div class="w-md-100 d-flex align-items-center mb-3 flex-wrap flex-md-nowrap">
-											<div>
-												<span>Total Sales</span>
-												<p class="h3 text-primary me-5">$1000</p>
-											</div>
-											<div>
-												<span>Receipts</span>
-												<p class="h3 text-success me-5">$1000</p>
-											</div>
-											<div>
-												<span>Expenses</span>
-												<p class="h3 text-danger me-5">$300</p>
-											</div>
-											<div>
-												<span>Earnings</span>
-												<p class="h3 text-dark me-5">$700</p>
-											</div>
-										</div>
-									</div>
-									
-									<div id="sales_chart"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-5 d-flex">
-							<div class="card flex-fill">
-								<div class="card-header">
-									<div class="d-flex justify-content-between align-items-center">
-										<h5 class="card-title">Invoice Analytics</h5> 
-										
-										<div class="dropdown main">
-											<button class="btn btn-white btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-												Monthly
-											</button>
-											<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-												<li>
-													<a href="javascript:void(0);" class="dropdown-item">Weekly</a>
-												</li>
-												<li>
-													<a href="javascript:void(0);" class="dropdown-item">Monthly</a>
-												</li>
-												<li>
-													<a href="javascript:void(0);" class="dropdown-item">Yearly</a>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="card-body">
-									<div id="invoice_chart"></div>
-									<div class="text-center text-muted">
-										<div class="row">
-											<div class="col-4">
-												<div class="mt-4">
-													<p class="mb-2 text-truncate"><i class="fas fa-circle text-primary me-1"></i> Invoiced</p>
-													<h5>$2,132</h5>
-												</div>
-											</div>
-											<div class="col-4">
-												<div class="mt-4">
-													<p class="mb-2 text-truncate"><i class="fas fa-circle text-success me-1"></i> Received</p>
-													<h5>$1,763</h5>
-												</div>
-											</div>
-											<div class="col-4">
-												<div class="mt-4">
-													<p class="mb-2 text-truncate"><i class="fas fa-circle text-danger me-1"></i> Pending</p>
-													<h5>$973</h5>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6 col-sm-6">
-							<div class="card mb-0">
-								<div class="card-header">
-									<div class="row align-center">
-										<div class="col">
-											<h5 class="card-title">Recent Invoices</h5>
-										</div>
-										<div class="col-auto">
-											<a href="invoices.html" class="btn-right btn btn-sm btn-outline-primary">
-												View All 
-											</a>
-										</div>
-									</div>
-								</div>
-								<div class="card-body">
-									<div class="mb-3">
-										<div class="progress progress-md rounded-pill mb-3">
-											<div class="progress-bar bg-success" role="progressbar" style="width: 47%" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100"></div>
-											<div class="progress-bar bg-warning" role="progressbar" style="width: 28%" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100"></div>
-											<div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-											<div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-										</div>
-										<div class="row">
-											<div class="col-auto">
-												<i class="fas fa-circle text-success me-1"></i> Paid
-											</div>
-											<div class="col-auto">
-												<i class="fas fa-circle text-warning me-1"></i> Unpaid
-											</div>
-											<div class="col-auto">
-												<i class="fas fa-circle text-danger me-1"></i> Overdue
-											</div>
-											<div class="col-auto">
-												<i class="fas fa-circle text-info me-1"></i> Draft
-											</div>
-										</div>
-									</div>
-				
-									<div class="table-responsive">
-									
-										<table class="table table-stripped table-hover">
-											<thead class="thead-light">
-												<tr>
-												   <th>Customer</th>
-												   <th>Amount</th>
-												   <th>Due Date</th>
-												   <th>Status</th>
-												   <th class="text-end">Action</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-04.jpg" alt="User Image">Barbara Moore</a>
-														</h2>
-													</td>
-													<td>$118</td>
-													<td>23 Nov 2020</td>
-													<td><span class="badge bg-success-light">Paid</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-copy me-2"></i>Clone Invoice</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-06.jpg" alt="User Image">Karlene Chaidez</a>
-														</h2>
-													</td>
-													<td>$222</td>
-													<td>18 Nov 2020</td>
-													<td><span class="badge bg-info-light text-info">Sent</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-copy me-2"></i>Clone Invoice</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-08.jpg" alt="User Image">Russell Copeland</a>
-														</h2>
-													</td>
-													<td>$347</td>
-													<td>10 Nov 2020</td>
-													<td><span class="badge bg-warning-light text-warning">Partially Paid</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-copy me-2"></i>Clone Invoice</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-10.jpg" alt="User Image">Joseph Collins</a>
-														</h2>
-													</td>
-													<td>$826</td>
-													<td>25 Sep 2020</td>
-													<td><span class="badge bg-danger-light">Overdue</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-copy me-2"></i>Clone Invoice</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-11.jpg" alt="User Image">Jennifer Floyd</a>
-														</h2>
-													</td>
-													<td>$519</td>
-													<td>18 Sep 2020</td>
-													<td><span class="badge bg-success-light">Paid</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-copy me-2"></i>Clone Invoice</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 col-sm-6">
-							<div class="card mb-0">
-								<div class="card-header">
-									<div class="row align-center">
-										<div class="col">
-											<h5 class="card-title">Recent Estimates</h5>
-										</div>
-										<div class="col-auto">
-											<a href="invoice-details.html" class="btn-right btn btn-sm btn-outline-primary">
-												View All 
-											</a>
-										</div>
-									</div>
-								</div>
-								<div class="card-body">
-									<div class="mb-3">
-										<div class="progress progress-md rounded-pill mb-3">
-											<div class="progress-bar bg-success" role="progressbar" style="width: 39%" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
-											<div class="progress-bar bg-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-											<div class="progress-bar bg-warning" role="progressbar" style="width: 26%" aria-valuenow="26" aria-valuemin="0" aria-valuemax="100"></div>
-										</div>
-										<div class="row">
-											<div class="col-auto">
-												<i class="fas fa-circle text-success me-1"></i> Sent
-											</div>
-											<div class="col-auto">
-												<i class="fas fa-circle text-warning me-1"></i> Draft
-											</div>
-											<div class="col-auto">
-												<i class="fas fa-circle text-danger me-1"></i> Expired
-											</div>
-										</div>
-									</div>
-									<div class="table-responsive">
-										<table class="table table-hover">
-											<thead class="thead-light">
-												<tr>
-													<th>Customer</th>
-													<th>Expiry Date</th>
-													<th>Amount</th>
-													<th>Status</th>
-													<th class="text-end">Action</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-05.jpg" alt="User Image"> Greg Lynch</a>
-														</h2>
-													</td>
-													<td>5 Nov 2020</td>
-													<td>$175</td>
-													<td><span class="badge bg-info-light text-info">Sent</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-file-alt me-2"></i>Convert to Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Estimate</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as Accepted</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-times-circle me-2"></i>Mark as Rejected</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-06.jpg" alt="User Image"> Karlene Chaidez</a>
-														</h2>
-													</td>
-													<td>28 Oct 2020</td>
-													<td>$1500</td>
-													<td><span class="badge bg-warning-light text-warning">Expired</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-file-alt me-2"></i>Convert to Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Estimate</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as Accepted</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-times-circle me-2"></i>Mark as Rejected</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-07.jpg" alt="User Image"> John Blair</a>
-														</h2>
-													</td>
-													<td>17 Oct 2020</td>
-													<td>$2350</td>
-													<td><span class="badge bg-success-light">Accepted</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-file-alt me-2"></i>Convert to Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Estimate</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as Accepted</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-times-circle me-2"></i>Mark as Rejected</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-08.jpg" alt="User Image"> Russell Copeland</a>
-														</h2>
-													</td>
-													<td>8 Oct 2020</td>
-													<td>$1890</td>
-													<td><span class="badge bg-success-light">Accepted</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-file-alt me-2"></i>Convert to Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Estimate</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as Accepted</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-times-circle me-2"></i>Mark as Rejected</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<h2 class="table-avatar">
-															<a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle" src="assets/img/profiles/avatar-09.jpg" alt="User Image"> Leatha Bailey</a>
-														</h2>
-													</td>
-													<td>30 Sep 2020</td>
-													<td>$785</td>
-													<td><span class="badge bg-success-light">Accepted</span></td>
-													<td class="text-end">
-														<div class="dropdown dropdown-action">
-															<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-																<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-file-alt me-2"></i>Convert to Invoice</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Estimate</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as Accepted</a>
-																<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-times-circle me-2"></i>Mark as Rejected</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
+                  <div class="container-xl wide-lg">
+                     <div class="nk-content-body">
+                        <div class="nk-block-head nk-block-head-lg wide-xs mx-auto">
+                           <div class="nk-block-head-content text-center">
+                              <h2 class="nk-block-title fw-normal">Nice, Abu Bin Ishtiyak!</h2>
+                              <div class="nk-block-des">
+                                 <p>Welcome to our <strong>DashLite Crypto Dashboard</strong>. You are few steps away to complete your profile. These are required to buy and sell on our platform! Let’s start!</p>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="nk-block">
+                           <div class="card card-custom-s1 card-bordered">
+                              <div class="row no-gutters">
+                                 <div class="col-lg-4">
+                                    <div class="card-inner-group h-100">
+                                       <div class="card-inner">
+                                          <h5>Let’s Finish Registration</h5>
+                                          <p>Only few minutes required to complete your registration and set up your account.</p>
+                                       </div>
+                                       <div class="card-inner">
+                                          <ul class="list list-step">
+                                             <li class="list-step-done">Verify email address</li>
+                                             <li class="list-step-current">Verify your identity (KYC)</li>
+                                             <li>Secure your account</li>
+                                             <li>Set up payment method</li>
+                                          </ul>
+                                       </div>
+                                       <div class="card-inner">
+                                          <div class="align-center gx-3">
+                                             <div class="flex-item">
+                                                <div class="progress progress-sm progress-pill w-80px">
+                                                   <div class="progress-bar" data-progress="25"></div>
+                                                </div>
+                                             </div>
+                                             <div class="flex-item"><span class="sub-text sub-text-sm text-soft">1/4 Completed</span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-lg-8">
+                                    <div class="card-inner card-inner-lg h-100">
+                                       <div class="align-center flex-wrap flex-md-nowrap g-3 h-100">
+                                          <div class="nk-block-image w-200px flex-shrink-0 order-first order-md-last">
+                                             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 114 113.9">
+                                                <path d="M87.84,110.34l-48.31-7.86a3.55,3.55,0,0,1-3.1-4L48.63,29a3.66,3.66,0,0,1,4.29-2.8L101.24,34a3.56,3.56,0,0,1,3.09,4l-12.2,69.52A3.66,3.66,0,0,1,87.84,110.34Z" transform="translate(-4 -2.1)" fill="#c4cefe"></path>
+                                                <path d="M33.73,105.39,78.66,98.1a3.41,3.41,0,0,0,2.84-3.94L69.4,25.05a3.5,3.5,0,0,0-4-2.82L20.44,29.51a3.41,3.41,0,0,0-2.84,3.94l12.1,69.11A3.52,3.52,0,0,0,33.73,105.39Z" transform="translate(-4 -2.1)" fill="#c4cefe"></path>
+                                                <rect x="22" y="17.9" width="66" height="88" rx="3" ry="3" fill="#6576ff"></rect>
+                                                <rect x="31" y="85.9" width="48" height="10" rx="1.5" ry="1.5" fill="#fff"></rect>
+                                                <rect x="31" y="27.9" width="48" height="5" rx="1" ry="1" fill="#e3e7fe"></rect>
+                                                <rect x="31" y="37.9" width="23" height="3" rx="1" ry="1" fill="#c4cefe"></rect>
+                                                <rect x="59" y="37.9" width="20" height="3" rx="1" ry="1" fill="#c4cefe"></rect>
+                                                <rect x="31" y="45.9" width="23" height="3" rx="1" ry="1" fill="#c4cefe"></rect>
+                                                <rect x="59" y="45.9" width="20" height="3" rx="1" ry="1" fill="#c4cefe"></rect>
+                                                <rect x="31" y="52.9" width="48" height="3" rx="1" ry="1" fill="#e3e7fe"></rect>
+                                                <rect x="31" y="60.9" width="23" height="3" rx="1" ry="1" fill="#c4cefe"></rect>
+                                                <path d="M98.5,116a.5.5,0,0,1-.5-.5V114H96.5a.5.5,0,0,1,0-1H98v-1.5a.5.5,0,0,1,1,0V113h1.5a.5.5,0,0,1,0,1H99v1.5A.5.5,0,0,1,98.5,116Z" transform="translate(-4 -2.1)" fill="#9cabff"></path>
+                                                <path d="M16.5,85a.5.5,0,0,1-.5-.5V83H14.5a.5.5,0,0,1,0-1H16V80.5a.5.5,0,0,1,1,0V82h1.5a.5.5,0,0,1,0,1H17v1.5A.5.5,0,0,1,16.5,85Z" transform="translate(-4 -2.1)" fill="#9cabff"></path>
+                                                <path d="M7,13a3,3,0,1,1,3-3A3,3,0,0,1,7,13ZM7,8a2,2,0,1,0,2,2A2,2,0,0,0,7,8Z" transform="translate(-4 -2.1)" fill="#9cabff"></path>
+                                                <path d="M113.5,71a4.5,4.5,0,1,1,4.5-4.5A4.51,4.51,0,0,1,113.5,71Zm0-8a3.5,3.5,0,1,0,3.5,3.5A3.5,3.5,0,0,0,113.5,63Z" transform="translate(-4 -2.1)" fill="#9cabff"></path>
+                                                <path d="M107.66,7.05A5.66,5.66,0,0,0,103.57,3,47.45,47.45,0,0,0,85.48,3h0A5.66,5.66,0,0,0,81.4,7.06a47.51,47.51,0,0,0,0,18.1,5.67,5.67,0,0,0,4.08,4.07,47.57,47.57,0,0,0,9,.87,47.78,47.78,0,0,0,9.06-.87,5.66,5.66,0,0,0,4.08-4.09A47.45,47.45,0,0,0,107.66,7.05Z" transform="translate(-4 -2.1)" fill="#2ec98a"></path>
+                                                <path d="M100.66,12.81l-1.35,1.47c-1.9,2.06-3.88,4.21-5.77,6.3a1.29,1.29,0,0,1-1,.42h0a1.27,1.27,0,0,1-1-.42c-1.09-1.2-2.19-2.39-3.28-3.56a1.29,1.29,0,0,1,1.88-1.76c.78.84,1.57,1.68,2.35,2.54,1.6-1.76,3.25-3.55,4.83-5.27l1.35-1.46a1.29,1.29,0,0,1,1.9,1.74Z" transform="translate(-4 -2.1)" fill="#fff"></path>
+                                             </svg>
+                                          </div>
+                                          <div class="nk-block-content">
+                                             <div class="nk-block-content-head">
+                                                <h4>Complete Your KYC</h4>
+                                                <span class="sub-text sub-text-sm text-soft">7 minutes</span>
+                                             </div>
+                                             <p>Looks like your have not verified your indentity yet. Please verify yourself to get full access to digital wallet.</p>
+                                             <ul class="list list-sm list-checked">
+                                                <li>Fiat Currency Wallet <span>(USD, EUR, GBP)</span></li>
+                                                <li>10+ Digital Crypto Wallet <span>(ETH, BTC, LTC etc)</span></li>
+                                                <li>Receive and send payment with NioWallet</li>
+                                             </ul>
+                                             <a href="/" class="btn btn-lg btn-primary">Get Started</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="nk-block">
+                           <div class="card card-bordered">
+                              <div class="card-inner card-inner-lg">
+                                 <div class="align-center flex-wrap flex-md-nowrap g-4">
+                                    <div class="nk-block-image w-120px flex-shrink-0">
+                                       <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 120 118">
+                                          <path d="M8.916,94.745C-.318,79.153-2.164,58.569,2.382,40.578,7.155,21.69,19.045,9.451,35.162,4.32,46.609.676,58.716.331,70.456,1.845,84.683,3.68,99.57,8.694,108.892,21.408c10.03,13.679,12.071,34.71,10.747,52.054-1.173,15.359-7.441,27.489-19.231,34.494-10.689,6.351-22.92,8.733-34.715,10.331-16.181,2.192-34.195-.336-47.6-12.281A47.243,47.243,0,0,1,8.916,94.745Z" transform="translate(0 -1)" fill="#f6faff"></path>
+                                          <rect x="18" y="32" width="84" height="50" rx="4" ry="4" fill="#fff"></rect>
+                                          <rect x="26" y="44" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                          <rect x="50" y="44" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                          <rect x="74" y="44" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                          <rect x="38" y="60" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                          <rect x="62" y="60" width="20" height="12" rx="1" ry="1" fill="#e5effe"></rect>
+                                          <path d="M98,32H22a5.006,5.006,0,0,0-5,5V79a5.006,5.006,0,0,0,5,5H52v8H45a2,2,0,0,0-2,2v4a2,2,0,0,0,2,2H73a2,2,0,0,0,2-2V94a2,2,0,0,0-2-2H66V84H98a5.006,5.006,0,0,0,5-5V37A5.006,5.006,0,0,0,98,32ZM73,94v4H45V94Zm-9-2H54V84H64Zm37-13a3,3,0,0,1-3,3H22a3,3,0,0,1-3-3V37a3,3,0,0,1,3-3H98a3,3,0,0,1,3,3Z" transform="translate(0 -1)" fill="#798bff"></path>
+                                          <path d="M61.444,41H40.111L33,48.143V19.7A3.632,3.632,0,0,1,36.556,16H61.444A3.632,3.632,0,0,1,65,19.7V37.3A3.632,3.632,0,0,1,61.444,41Z" transform="translate(0 -1)" fill="#6576ff"></path>
+                                          <path d="M61.444,41H40.111L33,48.143V19.7A3.632,3.632,0,0,1,36.556,16H61.444A3.632,3.632,0,0,1,65,19.7V37.3A3.632,3.632,0,0,1,61.444,41Z" transform="translate(0 -1)" fill="none" stroke="#6576ff" stroke-miterlimit="10" stroke-width="2"></path>
+                                          <line x1="40" y1="22" x2="57" y2="22" fill="none" stroke="#fffffe" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                                          <line x1="40" y1="27" x2="57" y2="27" fill="none" stroke="#fffffe" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                                          <line x1="40" y1="32" x2="50" y2="32" fill="none" stroke="#fffffe" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></line>
+                                          <line x1="30.5" y1="87.5" x2="30.5" y2="91.5" fill="none" stroke="#9cabff" stroke-linecap="round" stroke-linejoin="round"></line>
+                                          <line x1="28.5" y1="89.5" x2="32.5" y2="89.5" fill="none" stroke="#9cabff" stroke-linecap="round" stroke-linejoin="round"></line>
+                                          <line x1="79.5" y1="22.5" x2="79.5" y2="26.5" fill="none" stroke="#9cabff" stroke-linecap="round" stroke-linejoin="round"></line>
+                                          <line x1="77.5" y1="24.5" x2="81.5" y2="24.5" fill="none" stroke="#9cabff" stroke-linecap="round" stroke-linejoin="round"></line>
+                                          <circle cx="90.5" cy="97.5" r="3" fill="none" stroke="#9cabff" stroke-miterlimit="10"></circle>
+                                          <circle cx="24" cy="23" r="2.5" fill="none" stroke="#9cabff" stroke-miterlimit="10"></circle>
+                                       </svg>
+                                    </div>
+                                    <div class="nk-block-content">
+                                       <div class="nk-block-content-head px-lg-4">
+                                          <h5>We’re here to help you!</h5>
+                                          <p class="text-soft">Ask a question or file a support ticket, manage request, report an issues. Our team support team will get back to you by email.</p>
+                                       </div>
+                                    </div>
+                                    <div class="nk-block-content flex-shrink-0"><a href="#" class="btn btn-lg btn-outline-primary">Get Support Now</a></div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 
 @endsection

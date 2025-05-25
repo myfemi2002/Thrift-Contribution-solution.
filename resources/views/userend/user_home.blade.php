@@ -1,188 +1,144 @@
 @php
     $assetBase = asset('userend/assets');
 @endphp
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
-<!--<![endif]-->
+<html lang="zxx" class="js">
+   <head>
+      <meta charset="utf-8">
+      <meta name="author" content="Softnio">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+      <link rel="shortcut icon" href="{{ $assetBase }}/images/favicon-1.png">
+      <title>Dashboard | Loan Management | Admin </title>
+      <link rel="stylesheet" href="{{ $assetBase }}/css/dashlite-1.css?ver=3.3.0">
+      <link id="skin-default" rel="stylesheet" href="{{ $assetBase }}/css/theme-1.css?ver=3.3.0">
+      <script async="" src="{{ $assetBase }}/gtag/js-1?id=UA-91615293-4"></script>
+      <script>window.dataLayer = window.dataLayer || [];function gtag() {dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-91615293-4');</script> 
+   </head>
+   <body class="nk-body npc-crypto bg-lighter has-sidebar ">
+      <div class="nk-app-root">
+         <div class="nk-main ">
+            <div class="nk-sidebar nk-sidebar-fixed " data-content="sidebarMenu">
+               <div class="nk-sidebar-element nk-sidebar-head">
+                  <div class="nk-sidebar-brand"><a href="/" class="logo-link nk-sidebar-logo">
+                    <img class="logo-light logo-img" src="{{ $assetBase }}/images/logo-1.png" srcset="{{ $assetBase }}/images/logo2x-1.png 2x" alt="logo">
+                    <img class="logo-dark logo-img" src="{{ $assetBase }}/images/logo-dark-1.png" srcset="{{ $assetBase }}/images/logo-dark2x-1.png 2x" alt="logo-dark"><span class="nio-version">Loan</span></a></div>
+                  <div class="nk-menu-trigger me-n2"><a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a></div>
+               </div>
+               <div class="nk-sidebar-element">
+                  <div class="nk-sidebar-body" data-simplebar="">
+                     <div class="nk-sidebar-content">
+                        <div class="nk-sidebar-widget d-none d-xl-block">
+                           <div class="user-account-info between-center">
+                              <div class="user-account-main">
+                                 <h6 class="overline-title-alt">Total Loan</h6>
+                                 <div class="user-balance"> 45,750.385 <small class="currency">USD</small></div>
+                                 <div class="user-account-label"></div>
+                              </div>
+                              <a href="#" class="btn btn-white btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
+                           </div>
+                           <ul class="user-account-data gy-1">
+                              <li>
+                                 <div class="user-account-label"><span class="overline-title-alt">Interest</span></div>
+                                 <div class="user-account-value"><span class="sub-title text-base">15K <span class="currency">USD</span></span></div>
+                              </li>
+                           </ul>
+                           <div class="user-account-actions">
+                              <ul class="g-3">
+                                 <li><a href="loan-details.html" class="btn btn-lg btn-primary"><span>Details</span></a></li>
+                                 <li><a href="apply-application.html" class="btn btn-lg btn-outline-primary"><span>Apply Loan</span></a></li>
+                              </ul>
+                           </div>
+                        </div>
+                        <div class="nk-sidebar-widget nk-sidebar-widget-full d-xl-none pt-0">
+                           <a class="nk-profile-toggle toggle-expand" data-target="sidebarProfile" href="#">
+                              <div class="user-card-wrap">
+                                 <div class="user-card">
+                                    <div class="user-avatar"><span>AB</span></div>
+                                    <div class="user-info"><span class="lead-text">Abu Bin Ishtiyak</span><span class="sub-text">info@softnio.com</span></div>
+                                    <div class="user-action"><em class="icon ni ni-chevron-down"></em></div>
+                                 </div>
+                              </div>
+                           </a>
+                           <div class="nk-profile-content toggle-expand-content" data-content="sidebarProfile">
+                              <div class="user-account-info between-center">
+                                 <div class="user-account-main">
+                                    <h6 class="overline-title-alt">Total Loan</h6>
+                                    <div class="user-balance">10.8 Lac <small class="currency currency-btc">USD</small></div>
+                                    <div class="user-account-label"><span class="sub-text">Business Purpose</span></div>
+                                 </div>
+                                 <a href="#" class="btn btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
+                              </div>
+                              <ul class="user-account-data">
+                                 <li>
+                                    <div class="user-account-label"><span class="sub-text">Interest</span></div>
+                                    <div class="user-account-value"><span class="sub-text text-base">15K <span class="currency currency-btc">USD</span></span></div>
+                                 </li>
+                              </ul>
+                              <ul class="user-account-links">
+                                 <li><a href="/demo5/loan/loan-history.html" class="link"><span>Details</span> <em class="icon ni ni-wallet-out"></em></a></li>
+                                 <li><a href="apply-application.html" class="link"><span>Apply Loan</span> <em class="icon ni ni-wallet-in"></em></a></li>
+                              </ul>
+                              <ul class="link-list">
+                                 <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                              </ul>
+                           </div>
+                        </div>
 
-<head>
-    <!-- Basic Page Needs -->
-    <meta charset="utf-8">
-    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-    <title>NextTrade - Professional Trading Platform</title>
-
-    <meta name="author" content="nextrade.com">
-    <meta name="description" content="NextTrade - A comprehensive trading platform for market analysis, trading signals, and financial intelligence.">
-    <meta name="keywords" content="trading platform, financial markets, trading signals, market analysis, investment tools, algorithmic trading, risk management, financial intelligence">
-
-    <!-- Mobile Specific Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <!-- Social Media Meta Tags -->
-    <meta property="og:title" content="NextTrade - Professional Trading Platform">
-    <meta property="og:description" content="Advanced trading platform with professional-grade signals, market analysis, and risk management tools.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="{{ $assetBase }}/images/nextrade-banner.jpg">
-    
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="NextTrade - Professional Trading Platform">
-    <meta name="twitter:description" content="Advanced trading platform with professional-grade signals, market analysis, and risk management tools.">
-
-    <!-- Theme Style -->
-    <link rel="stylesheet" type="text/css" href="{{ $assetBase }}/css/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ $assetBase }}/css/animation.css">
-    <link rel="stylesheet" type="text/css" href="{{ $assetBase }}/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="{{ $assetBase }}/css/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ $assetBase }}/css/styles.css">
-
-    <!-- Font -->
-    <link rel="stylesheet" href="{{ $assetBase }}/font/fonts.css">
-
-    <!-- Icon -->
-    <link rel="stylesheet" href="{{ $assetBase }}/icon/style.css">
-
-    <!-- Favicon and Touch Icons  -->
-    <link rel="shortcut icon" href="{{ $assetBase }}/images/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="{{ $assetBase }}/images/favicon.png">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-
-       <!-- trix css -->
-       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trix@2.1.12/dist/trix.min.css">
-
-<!-- Additional CSS -->
-<link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/toaster/toastr.css') }}"> 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-
-</head>
-
-<body class="counter-scroll">
-
-    <!-- #wrapper -->
-    <div id="wrapper">
-        <!-- #page -->
-        <div id="page" class="">
-            <!-- layout-wrap -->
-            <div class="layout-wrap loader-off">
-                <!-- preload -->
-                <div id="preload" class="preload-container">
-                    <div class="preloading">
-                        <span></span>
-                    </div>
-                </div>
-                <!-- /preload -->
-
-
-                <!-- section-menu-left -->
-                 @include('userend.body.sidebar')
-                <!-- /section-menu-left -->
-
-
-                <!-- section-content-right -->
-                <div class="section-content-right">
-
-
-                    <!-- header-dashboard -->
-                     @include('userend.body.header-dashboard')
-                    <!-- /header-dashboard -->
-
-
-                    <!-- main-content -->
-                    <div class="main-content">
-                        <!-- main-content-wrap -->
-                            @yield('user_content')
-
-                        <!-- /main-content-wrap -->
-                        
-                    </div>
-                    <!-- /main-content -->
+                            @include('userend.body.sidebar')
 
 
-                </div>
-                <!-- /section-content-right -->
+                        <div class="nk-sidebar-footer">
+                           <ul class="nk-menu nk-menu-footer">
+                              <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-help-alt"></em></span><span class="nk-menu-text">Support</span></a></li>
+                              <li class="nk-menu-item ms-auto">
+                                 <div class="dropup">
+                                    <a href="#" class="nk-menu-link dropdown-indicator has-indicator" data-bs-toggle="dropdown" data-bs-offset="0,10"><span class="nk-menu-icon"><em class="icon ni ni-globe"></em></span><span class="nk-menu-text">English</span></a>
+                                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
+                                       <ul class="language-list">
+                                          <li><a href="#" class="language-item"><img src="{{ $assetBase }}/images/flags/english-1.png" alt="" class="language-flag"><span class="language-name">English</span></a></li>
+                                          <li><a href="#" class="language-item"><img src="{{ $assetBase }}/images/flags/spanish-1.png" alt="" class="language-flag"><span class="language-name">Español</span></a></li>
+                                          <li><a href="#" class="language-item"><img src="{{ $assetBase }}/images/flags/french-1.png" alt="" class="language-flag"><span class="language-name">Français</span></a></li>
+                                          <li><a href="#" class="language-item"><img src="{{ $assetBase }}/images/flags/turkey-1.png" alt="" class="language-flag"><span class="language-name">Türkçe</span></a></li>
+                                       </ul>
+                                    </div>
+                                 </div>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-            <!-- /layout-wrap -->
-        </div>
-        <!-- /#page -->
-    </div>
-    <!-- /#wrapper -->
-z
-    <!-- Javascript -->
-    <script src="{{ $assetBase }}/js/jquery.min.js"></script>
-    <script src="{{ $assetBase }}/js/countto.js"></script>
-    <script src="{{ $assetBase }}/js/bootstrap.min.js"></script>
-    <script src="{{ $assetBase }}/js/bootstrap-select.min.js"></script>
-    <script src="{{ $assetBase }}/js/apexcharts/apexcharts.js"></script>
-    <script src="{{ $assetBase }}/js/apexcharts/small-chart-1.js"></script>
-    <script src="{{ $assetBase }}/js/apexcharts/small-chart-2.js"></script>
-    <script src="{{ $assetBase }}/js/apexcharts/small-chart-3.js"></script>
-    <script src="{{ $assetBase }}/js/apexcharts/small-chart-4.js"></script>
-    <script src="{{ $assetBase }}/js/apexcharts/line-chart-twoline.js"></script>
-    <script src="{{ $assetBase }}/js/apexcharts/candlestick-1.js"></script>
-    <script src="{{ $assetBase }}/js/apexcharts/candlestick-4.js"></script>
-    <script src="{{ $assetBase }}/js/apexcharts/candlestick-5.js"></script>
-    <script src="{{ $assetBase }}/js/switcher.js"></script>
-    <script defer src="{{ $assetBase }}/js/theme-settings.js"></script>
-    <script src="{{ $assetBase }}/js/main.js"></script>
 
-            
-    <!-- Additional Scripts -->
-    <script src="{{ asset('backend/assets/validation/validate.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/handlebars/handlebars.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('backend/assets/sweetalert-code/code.js') }}"></script>
-    <script src="{{ asset('backend/assets/Font-Awesome/js/all.js') }}"></script>
-    <script src="{{ asset('backend/assets/toaster/toastr.min.js') }}"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/trix@2.1.12/dist/trix.umd.min.js"></script>
 
-    <!-- Notifications -->
-    <script>
-        @if(Session::has('message'))
-        var type = "{{ Session::get('alert-type', 'info') }}";
-        switch(type) {
-            case 'info':
-                toastr.info("{{ Session::get('message') }}");
-                break;
-            case 'success':
-                toastr.success("{{ Session::get('message') }}");
-                break;
-            case 'warning':
-                toastr.warning("{{ Session::get('message') }}");
-                break;
-            case 'error':
-                toastr.error("{{ Session::get('message') }}");
-                break;
-        }
-        @endif
-    </script>
-
-    <script>
-    // Delete confirmation
-    $(document).on('click', '#delete', function(e) {
-        e.preventDefault();
-        var link = $(this).attr("href");
         
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = link;
-            }
-        });
-    });
-    </script>
+            <div class="nk-wrap ">
 
-</body>
+            @include('userend.body.top-header')
 
+               <div class="nk-content nk-content-fluid">
+
+                        @yield('user_content')
+
+
+               </div>
+
+
+
+
+               <div class="nk-footer">
+                    @include('userend.body.footer')
+               </div>
+
+
+            </div>
+         </div>
+      </div>
+      
+      <script src="{{ $assetBase }}/js/bundle-1.js?ver=3.3.0"></script>
+      <script src="{{ $assetBase }}/js/scripts-1.js?ver=3.3.0"></script>
+      <script src="{{ $assetBase }}/js/demo-settings-1.js?ver=3.3.0"></script>
+   </body>
 </html>
