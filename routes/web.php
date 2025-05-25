@@ -10,6 +10,7 @@ use App\Http\Controllers\RolesController;
 
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GroupNameController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AdminWalletController;
@@ -68,6 +69,17 @@ use App\Http\Controllers\RoleWithPermissionController;
 
     // All Admin Routes Middleware Starts Here
     Route::middleware(['auth', 'roles:admin'])->group(function () {
+
+        Route::prefix('users')->controller(CustomerController::class)->group(function () {
+            Route::get('/', 'index')->name('admin.users.index');
+            Route::post('/store', 'store')->name('admin.users.store');
+            Route::post('/update/{id}', 'update')->name('admin.users.update');
+            Route::get('/delete/{id}', 'destroy')->name('admin.users.delete');
+            Route::get('/toggle-status/{id}', 'toggleStatus')->name('admin.users.toggle-status');
+            Route::get('/view/{id}', 'show')->name('admin.users.view');
+            Route::get('/edit/{id}', 'edit')->name('admin.users.edit');
+            
+        });
         
 
 

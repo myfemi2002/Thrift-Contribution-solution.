@@ -76,9 +76,34 @@
                               <li class="nk-menu-heading">
                                  <h6 class="overline-title">Menu</h6>
                               </li>
-                              <li class="nk-menu-item"><a href="/" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span><span class="nk-menu-text">Dashboard</span></a></li>
-                              <li class="nk-menu-item"><a href="accounts.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-user-c"></em></span><span class="nk-menu-text">My Account</span></a></li>
-                              <li class="nk-menu-item"><a href="wallets.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span><span class="nk-menu-text">Wallets</span></a></li>
+                              <li class="nk-menu-item">
+                                    <a href="{{ route('admin.dashboard') }}" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
+                                        <span class="nk-menu-text">Dashboard</span>
+                                    </a>
+                                </li>
+                              
+                              <li class="nk-menu-item">
+                                    <a href="{{ route('admin.users.index') }}" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-user-list-fill"></em></span>
+                                        <span class="nk-menu-text">All Customers</span>
+                                    </a>
+                                </li>
+                              
+                              <li class="nk-menu-item">
+                                    <a href="#" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-user-c"></em></span>
+                                        <span class="nk-menu-text">My Account</span>
+                                    </a>
+                                </li>
+
+                              <li class="nk-menu-item">
+                                    <a href="#" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
+                                        <span class="nk-menu-text">Wallets</span>
+                                    </a>
+                                </li>
+
                               <li class="nk-menu-item"><a href="buy-sell.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-coins"></em></span><span class="nk-menu-text">Buy / Sell</span></a></li>
                               <li class="nk-menu-item"><a href="order-history.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-repeat"></em></span><span class="nk-menu-text">Orders</span></a></li>
                               <li class="nk-menu-item"><a href="chats.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-chat-circle"></em></span><span class="nk-menu-text">Chats</span></a></li>
