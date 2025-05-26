@@ -35,24 +35,24 @@
                                     <div class="user-toggle">
                                        <div class="user-avatar sm"><em class="icon ni ni-user-alt"></em></div>
                                        <div class="user-info d-none d-md-block">
-                                          <div class="user-status user-status-unverified">Unverified</div>
-                                          <div class="user-name dropdown-indicator">Abu Bin Ishityak</div>
+
+                                          <div class="user-status user-status-{{ Auth::user()->status === 'active' ? 'verified' : 'unverified' }}">
+                                             {{ ucfirst(Auth::user()->status) }}
+                                          </div>
+
+                                          <div class="user-name dropdown-indicator">{{ Auth::user()->name }}</div>
                                        </div>
                                     </div>
                                  </a>
                                  <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1">
                                     <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                        <div class="user-card">
-                                          <div class="user-avatar"><span>AB</span></div>
-                                          <div class="user-info"><span class="lead-text">Abu Bin Ishtiyak</span><span class="sub-text">info@softnio.com</span></div>
+                                          <div class="user-avatar"><span>{{ substr(Auth::user()->name, 0, 2) }}</span></div>
+                                          <div class="user-info"><span class="lead-text">{{ Auth::user()->name }}</span>
+                                          <span class="sub-text">{{ Auth::user()->email }}</span></div>
                                        </div>
                                     </div>
-                                    <div class="dropdown-inner user-account-info">
-                                       <h6 class="overline-title-alt">Nio Wallet Account</h6>
-                                       <div class="user-balance">12.395769 <small class="currency currency-btc">BTC</small></div>
-                                       <div class="user-balance-sub">Locked <span>0.344939 <span class="currency currency-btc">BTC</span></span></div>
-                                       <a href="#" class="link"><span>Withdraw Funds</span> <em class="icon ni ni-wallet-out"></em></a>
-                                    </div>
+
                                     <div class="dropdown-inner">
                                        <ul class="link-list">
                                           <li><a href="profile.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="dropdown-inner">
                                        <ul class="link-list">
-                                          <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                          <li><a href="{{ route('admin.logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
                                        </ul>
                                     </div>
                                  </div>

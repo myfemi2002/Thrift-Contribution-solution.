@@ -53,5 +53,8 @@
       <script src="{{ $assetBase }}/js/scripts.js?ver=3.3.0"></script>
       <script src="{{ $assetBase }}/js/demo-settings.js?ver=3.3.0"></script>
       <script src="{{ $assetBase }}/js/charts/chart-crypto.js?ver=3.3.0"></script>
+      <script src="{{ $assetBase }}/js/libs/fullcalendar.js?ver=3.3.0"></script>
+      <script src="{{ $assetBase }}/js/apps/calendar.js?ver=3.3.0"></script>
+      
    </body>
 </html>

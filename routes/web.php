@@ -16,7 +16,9 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AdminWalletController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\AdminDepositController;
+use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\SystemSettingController;
+use App\Http\Controllers\WalletAdjustmentController;
 use App\Http\Controllers\RoleWithPermissionController;
 
 /*
@@ -80,6 +82,43 @@ use App\Http\Controllers\RoleWithPermissionController;
             Route::get('/edit/{id}', 'edit')->name('admin.users.edit');
             
         });
+
+        // Route::prefix('contributions')->controller(ContributionController::class)->group(function () {
+        //     Route::get('/', 'index')->name('admin.contributions.index');
+        //     Route::get('/create', 'create')->name('admin.contributions.create');
+        //     Route::post('/store', 'store')->name('admin.contributions.store');
+        //     Route::post('/search-user', 'searchUser')->name('admin.contributions.search-user');
+        //     Route::get('/calendar', 'calendar')->name('admin.contributions.calendar');
+        //     Route::get('/logs', 'logs')->name('admin.contributions.logs');
+        //     Route::get('/wallet/{userId}', 'wallet')->name('admin.contributions.wallet');
+        //     Route::get('/export', 'export')->name('admin.contributions.export');
+        // });
+
+        
+        Route::prefix('contributions')->controller(ContributionController::class)->group(function () {
+            Route::get('/', 'index')->name('admin.contributions.index');
+            Route::get('/create', 'create')->name('admin.contributions.create');
+            Route::post('/store', 'store')->name('admin.contributions.store');
+            Route::post('/search-user', 'searchUser')->name('admin.contributions.search-user');
+            Route::get('/calendar', 'calendar')->name('admin.contributions.calendar');
+            Route::get('/logs', 'logs')->name('admin.contributions.logs');
+            Route::get('/wallet/{userId}', 'wallet')->name('admin.contributions.wallet');
+            Route::get('/export', 'export')->name('admin.contributions.export');
+            Route::get('/debug', 'debugContributions')->name('admin.contributions.debug');
+        });
+
+Route::prefix('wallet-adjustments')->controller(WalletAdjustmentController::class)->group(function () {
+    Route::get('/', 'index')->name('admin.wallet-adjustments.index');
+    Route::get('/create', 'create')->name('admin.wallet-adjustments.create');
+    Route::post('/store', 'store')->name('admin.wallet-adjustments.store');
+    Route::post('/search-user', 'searchUser')->name('admin.wallet-adjustments.search-user');
+    Route::post('/approve/{id}', 'approve')->name('admin.wallet-adjustments.approve');
+    Route::post('/reject/{id}', 'reject')->name('admin.wallet-adjustments.reject');
+    Route::get('/show/{id}', 'show')->name('admin.wallet-adjustments.show');
+    Route::get('/user-history/{userId}', 'userHistory')->name('admin.wallet-adjustments.user-history');
+    Route::get('/export', 'export')->name('admin.wallet-adjustments.export');
+    Route::get('/pending-count', 'pendingCount')->name('admin.wallet-adjustments.pending-count');
+});
         
 
 
@@ -165,28 +204,45 @@ use App\Http\Controllers\RoleWithPermissionController;
     Route::middleware(['auth', 'roles:user'])->group(function () {
 
         // 👉 User Dashboard & Profile
-        Route::controller(UserController::class)->group(function () {
-            Route::get('/user/dashboard', 'userDashboard')->name('user.dashboard');
-            Route::get('/user-logout', 'userDestroy')->name('user.logout');
-            Route::get('/user-profile', 'userProfile')->name('user.profile');
-            Route::post('/user-profile/store', 'userProfileStore')->name('user.profile.store');
-            Route::get('/user-change/password', 'userChangePassword')->name('user.change.password');
-            Route::post('/user-update/password', 'userUpdatePassword')->name('user.update.password');
-        });
-
-
-
-        // Route::prefix('wallet')->controller(DepositController::class)->group(function () {
-        //     Route::get('/deposit', 'showDepositForm')->name('user.wallet.deposit');
-        //     Route::post('/verify-deposit', 'verifyDeposit')->name('user.wallet.verify-deposit');
-        //     // User Deposit Appeal Routes         
-        //     Route::get('/appeal/{id}', 'showAppealForm')->name('user.wallet.deposit.appeal.form');
-        //     Route::post('/appeal/{id}', 'submitAppeal')->name('user.wallet.deposit.appeal.submit');
-        //     Route::get('/appeal/view/{id}', 'viewAppeal')->name('user.wallet.deposit.appeal.view');
-
-        //     // User routes
-        //     Route::get('/deposit/transaction-logs', 'depositTransactionLogs')->name('user.wallet.deposit.transaction-logs');
+        // Route::controller(UserController::class)->group(function () {
+        //     Route::get('/user/dashboard', 'userDashboard')->name('user.dashboard');
+        //     Route::post('/user-logout', 'userDestroy')->name('user.logout');
+        //     Route::get('/user-profile', 'userProfile')->name('user.profile');
+        //     Route::post('/user-profile/store', 'userProfileStore')->name('user.profile.store');
+        //     Route::get('/user-change/password', 'userChangePassword')->name('user.change.password');
+        //     Route::post('/user-update/password', 'userUpdatePassword')->name('user.update.password');
         // });
+
+    
+        // Dashboard
+        Route::get('/user/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
+        
+        // Wallet Routes
+        Route::prefix('user/wallet')->group(function () {
+            Route::get('/details', [UserController::class, 'walletDetails'])->name('user.wallet.details');
+            Route::get('/balance', [UserController::class, 'getWalletBalance'])->name('user.wallet.balance');
+            Route::get('/transactions', [UserController::class, 'transactionLogs'])->name('user.wallet.transactions');
+            Route::get('/export-statement', [UserController::class, 'exportStatement'])->name('user.wallet.export');
+        });
+        
+        // Contribution Routes
+        Route::prefix('user/contributions')->group(function () {
+            Route::get('/history', [UserController::class, 'contributionHistory'])->name('user.contributions.history');
+            Route::get('/calendar', [UserController::class, 'contributionCalendar'])->name('user.contributions.calendar');
+            Route::get('/export', [UserController::class, 'exportContributions'])->name('user.contributions.export');
+        });
+        
+        // Profile and Settings Routes
+        Route::prefix('user')->group(function () {
+            Route::get('/profile', [UserController::class, 'showProfile'])->name('user.profile');
+            Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+            Route::get('/security', [UserController::class, 'securitySettings'])->name('user.security');
+            Route::post('/security/update', [UserController::class, 'updateSecurity'])->name('user.security.update');
+            Route::get('/notifications', [UserController::class, 'notifications'])->name('user.notifications');
+        });
+        
+        // User Logout
+        Route::post('/user/logout', [UserController::class, 'userDestroy'])->name('user.logout');
 
 
 

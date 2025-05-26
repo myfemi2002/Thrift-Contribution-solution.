@@ -89,6 +89,78 @@
                                         <span class="nk-menu-text">All Customers</span>
                                     </a>
                                 </li>
+
+                                
+                            <!-- Contribution Management Menu -->
+                            <li class="nk-menu-item has-sub">
+                                <a href="#" class="nk-menu-link nk-menu-toggle">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
+                                    <span class="nk-menu-text">Contributions</span>
+                                </a>
+                                <ul class="nk-menu-sub">
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('admin.contributions.index') }}" class="nk-menu-link">
+                                            <span class="nk-menu-text">Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('admin.contributions.create') }}" class="nk-menu-link">
+                                            <span class="nk-menu-text">Record Contribution</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('admin.contributions.calendar') }}" class="nk-menu-link">
+                                            <span class="nk-menu-text">Calendar View</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('admin.contributions.logs') }}" class="nk-menu-link">
+                                            <span class="nk-menu-text">Transaction Logs</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            
+
+                            <!-- Wallet Adjustments Menu -->
+                            <li class="nk-menu-item has-sub">
+                                <a href="#" class="nk-menu-link nk-menu-toggle">
+                                    <span class="nk-menu-icon"><em class="icon ni ni-setting-alt"></em></span>
+                                    <span class="nk-menu-text">Wallet Adjustments</span>
+                                    @php
+                                        $pendingCount = \App\Models\WalletAdjustment::where('status', 'pending')->count();
+                                    @endphp
+                                    @if($pendingCount > 0)
+                                        <span class="nk-menu-badge badge badge-danger">{{ $pendingCount }}</span>
+                                    @endif
+                                </a>
+                                <ul class="nk-menu-sub">
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('admin.wallet-adjustments.index') }}" class="nk-menu-link">
+                                            <span class="nk-menu-text">All Adjustments</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('admin.wallet-adjustments.create') }}" class="nk-menu-link">
+                                            <span class="nk-menu-text">Credit/Debit Wallet</span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('admin.wallet-adjustments.index') }}?status=pending" class="nk-menu-link">
+                                            <span class="nk-menu-text">Pending Approvals</span>
+                                            @if($pendingCount > 0)
+                                                <span class="badge badge-sm badge-danger ms-1">{{ $pendingCount }}</span>
+                                            @endif
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('admin.wallet-adjustments.index') }}?reason=omitted_contribution" class="nk-menu-link">
+                                            <span class="nk-menu-text">Omitted Contributions</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                               
                               <li class="nk-menu-item">
                                     <a href="#" class="nk-menu-link">

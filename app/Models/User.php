@@ -73,36 +73,71 @@ class User extends Authenticatable
         return $this->created_at ? $this->created_at->format('d M Y') : 'N/A';
     }
 
-    /**
-     * Get the wallet associated with the user.
-     */
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::created(function ($user) {
+            // Auto-create wallet for new users with role 'user'
+            if ($user->role === 'user') {
+                Wallet::create([
+                    'user_id' => $user->id,
+                    'balance' => 0.00,
+                    'total_contributions' => 0.00,
+                    'status' => 'active'
+                ]);
+            }
+        });
+    }
+
     public function wallet()
     {
-        return $this->hasOne(UserWallet::class);
+        return $this->hasOne(Wallet::class);
     }
 
-    /**
-     * Get deposits for this user.
-     */
-    public function deposits()
+    public function contributions()
     {
-        return $this->hasMany(CryptoDeposit::class);
-    }  
-    
-    /**
-     * Get the deposit appeals for the user.
-     */
-    public function depositAppeals()
-    {
-        return $this->hasManyThrough(
-            DepositAppeal::class,
-            CryptoDeposit::class,
-            'user_id', // Foreign key on crypto_deposits table
-            'deposit_id', // Foreign key on deposit_appeals table
-            'id', // Local key on users table
-            'id' // Local key on crypto_deposits table
-        );
+        return $this->hasMany(DailyContribution::class);
     }
-    
 
+    public function agentContributions()
+    {
+        return $this->hasMany(DailyContribution::class, 'agent_id');
+    }
+
+    public function contributionLogs()
+    {
+        return $this->hasMany(ContributionLog::class);
+    }
+
+    public function agentLogs()
+    {
+        return $this->hasMany(ContributionLog::class, 'agent_id');
+    }
+
+    public function hasContributionForDate($date)
+    {
+        return $this->contributions()
+            ->whereDate('contribution_date', $date)
+            ->exists();
+    }
+
+    public function getContributionForDate($date)
+    {
+        return $this->contributions()
+            ->whereDate('contribution_date', $date)
+            ->first();
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isUser()
+    {
+        return $this->role === 'user';
+    }
 }
+    

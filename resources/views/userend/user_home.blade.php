@@ -29,62 +29,9 @@
                <div class="nk-sidebar-element">
                   <div class="nk-sidebar-body" data-simplebar="">
                      <div class="nk-sidebar-content">
-                        <div class="nk-sidebar-widget d-none d-xl-block">
-                           <div class="user-account-info between-center">
-                              <div class="user-account-main">
-                                 <h6 class="overline-title-alt">Total Loan</h6>
-                                 <div class="user-balance"> 45,750.385 <small class="currency">USD</small></div>
-                                 <div class="user-account-label"></div>
-                              </div>
-                              <a href="#" class="btn btn-white btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
-                           </div>
-                           <ul class="user-account-data gy-1">
-                              <li>
-                                 <div class="user-account-label"><span class="overline-title-alt">Interest</span></div>
-                                 <div class="user-account-value"><span class="sub-title text-base">15K <span class="currency">USD</span></span></div>
-                              </li>
-                           </ul>
-                           <div class="user-account-actions">
-                              <ul class="g-3">
-                                 <li><a href="loan-details.html" class="btn btn-lg btn-primary"><span>Details</span></a></li>
-                                 <li><a href="apply-application.html" class="btn btn-lg btn-outline-primary"><span>Apply Loan</span></a></li>
-                              </ul>
-                           </div>
-                        </div>
-                        <div class="nk-sidebar-widget nk-sidebar-widget-full d-xl-none pt-0">
-                           <a class="nk-profile-toggle toggle-expand" data-target="sidebarProfile" href="#">
-                              <div class="user-card-wrap">
-                                 <div class="user-card">
-                                    <div class="user-avatar"><span>AB</span></div>
-                                    <div class="user-info"><span class="lead-text">Abu Bin Ishtiyak</span><span class="sub-text">info@softnio.com</span></div>
-                                    <div class="user-action"><em class="icon ni ni-chevron-down"></em></div>
-                                 </div>
-                              </div>
-                           </a>
-                           <div class="nk-profile-content toggle-expand-content" data-content="sidebarProfile">
-                              <div class="user-account-info between-center">
-                                 <div class="user-account-main">
-                                    <h6 class="overline-title-alt">Total Loan</h6>
-                                    <div class="user-balance">10.8 Lac <small class="currency currency-btc">USD</small></div>
-                                    <div class="user-account-label"><span class="sub-text">Business Purpose</span></div>
-                                 </div>
-                                 <a href="#" class="btn btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
-                              </div>
-                              <ul class="user-account-data">
-                                 <li>
-                                    <div class="user-account-label"><span class="sub-text">Interest</span></div>
-                                    <div class="user-account-value"><span class="sub-text text-base">15K <span class="currency currency-btc">USD</span></span></div>
-                                 </li>
-                              </ul>
-                              <ul class="user-account-links">
-                                 <li><a href="/demo5/loan/loan-history.html" class="link"><span>Details</span> <em class="icon ni ni-wallet-out"></em></a></li>
-                                 <li><a href="apply-application.html" class="link"><span>Apply Loan</span> <em class="icon ni ni-wallet-in"></em></a></li>
-                              </ul>
-                              <ul class="link-list">
-                                 <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
-                              </ul>
-                           </div>
-                        </div>
+
+
+
 
                             @include('userend.body.sidebar')
 
