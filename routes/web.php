@@ -18,6 +18,7 @@ use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\AdminDepositController;
 use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\SystemSettingController;
+use App\Http\Controllers\WalletDepositController;
 use App\Http\Controllers\WalletAdjustmentController;
 use App\Http\Controllers\RoleWithPermissionController;
 
@@ -240,9 +241,20 @@ Route::prefix('wallet-adjustments')->controller(WalletAdjustmentController::clas
             Route::post('/security/update', [UserController::class, 'updateSecurity'])->name('user.security.update');
             Route::get('/notifications', [UserController::class, 'notifications'])->name('user.notifications');
         });
+
+        
+        Route::prefix('wallet/deposit')->name('user.wallet.deposit.')->group(function () {
+            Route::get('/', [WalletDepositController::class, 'index'])->name('index');
+            Route::get('/create', [WalletDepositController::class, 'create'])->name('create');
+            Route::post('/store', [WalletDepositController::class, 'store'])->name('store');
+            Route::get('/callback/paystack', [WalletDepositController::class, 'paystackCallback'])->name('callback.paystack');
+            Route::get('/callback/flutterwave', [WalletDepositController::class, 'flutterwaveCallback'])->name('callback.flutterwave');
+        });
         
         // User Logout
         Route::post('/user/logout', [UserController::class, 'userDestroy'])->name('user.logout');
+
+
 
 
 

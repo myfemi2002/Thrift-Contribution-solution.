@@ -237,6 +237,13 @@
             <span class="nk-menu-text">Dashboard</span>
          </a>
       </li>
+
+      <li class="nk-menu-item">
+         <a href="{{ route('user.wallet.deposit.index') }}" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="icon ni ni-wallet-in"></em></span>
+            <span class="nk-menu-text">Fund Wallet</span>
+         </a>
+      </li>
       
       
       <li class="nk-menu-item">

@@ -139,5 +139,9 @@ class User extends Authenticatable
     {
         return $this->role === 'user';
     }
+    public function walletDeposits()
+    {
+        return $this->hasMany(WalletDeposit::class);
+    }
 }
     

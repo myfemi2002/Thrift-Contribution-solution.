@@ -2,7 +2,7 @@
 @section('title', 'My Contribution Calendar')
 @section('user_content')
 
-<div class="container-xl wide-lg">
+<div class="container-xl wide-xxl">
     <div class="nk-content-body">
         <!-- Page Header -->
         <div class="nk-block-head">
