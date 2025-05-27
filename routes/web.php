@@ -13,12 +13,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GroupNameController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\AdminWalletController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\AdminDepositController;
 use App\Http\Controllers\ContributionController;
 use App\Http\Controllers\SystemSettingController;
 use App\Http\Controllers\WalletDepositController;
+use App\Http\Controllers\AdminWithdrawalController;
 use App\Http\Controllers\WalletAdjustmentController;
 use App\Http\Controllers\RoleWithPermissionController;
 
@@ -84,18 +86,6 @@ use App\Http\Controllers\RoleWithPermissionController;
             
         });
 
-        // Route::prefix('contributions')->controller(ContributionController::class)->group(function () {
-        //     Route::get('/', 'index')->name('admin.contributions.index');
-        //     Route::get('/create', 'create')->name('admin.contributions.create');
-        //     Route::post('/store', 'store')->name('admin.contributions.store');
-        //     Route::post('/search-user', 'searchUser')->name('admin.contributions.search-user');
-        //     Route::get('/calendar', 'calendar')->name('admin.contributions.calendar');
-        //     Route::get('/logs', 'logs')->name('admin.contributions.logs');
-        //     Route::get('/wallet/{userId}', 'wallet')->name('admin.contributions.wallet');
-        //     Route::get('/export', 'export')->name('admin.contributions.export');
-        // });
-
-        
         Route::prefix('contributions')->controller(ContributionController::class)->group(function () {
             Route::get('/', 'index')->name('admin.contributions.index');
             Route::get('/create', 'create')->name('admin.contributions.create');
@@ -108,19 +98,31 @@ use App\Http\Controllers\RoleWithPermissionController;
             Route::get('/debug', 'debugContributions')->name('admin.contributions.debug');
         });
 
-Route::prefix('wallet-adjustments')->controller(WalletAdjustmentController::class)->group(function () {
-    Route::get('/', 'index')->name('admin.wallet-adjustments.index');
-    Route::get('/create', 'create')->name('admin.wallet-adjustments.create');
-    Route::post('/store', 'store')->name('admin.wallet-adjustments.store');
-    Route::post('/search-user', 'searchUser')->name('admin.wallet-adjustments.search-user');
-    Route::post('/approve/{id}', 'approve')->name('admin.wallet-adjustments.approve');
-    Route::post('/reject/{id}', 'reject')->name('admin.wallet-adjustments.reject');
-    Route::get('/show/{id}', 'show')->name('admin.wallet-adjustments.show');
-    Route::get('/user-history/{userId}', 'userHistory')->name('admin.wallet-adjustments.user-history');
-    Route::get('/export', 'export')->name('admin.wallet-adjustments.export');
-    Route::get('/pending-count', 'pendingCount')->name('admin.wallet-adjustments.pending-count');
-});
+        Route::prefix('wallet-adjustments')->controller(WalletAdjustmentController::class)->group(function () {
+            Route::get('/', 'index')->name('admin.wallet-adjustments.index');
+            Route::get('/create', 'create')->name('admin.wallet-adjustments.create');
+            Route::post('/store', 'store')->name('admin.wallet-adjustments.store');
+            Route::post('/search-user', 'searchUser')->name('admin.wallet-adjustments.search-user');
+            Route::post('/approve/{id}', 'approve')->name('admin.wallet-adjustments.approve');
+            Route::post('/reject/{id}', 'reject')->name('admin.wallet-adjustments.reject');
+            Route::get('/show/{id}', 'show')->name('admin.wallet-adjustments.show');
+            Route::get('/user-history/{userId}', 'userHistory')->name('admin.wallet-adjustments.user-history');
+            Route::get('/export', 'export')->name('admin.wallet-adjustments.export');
+            Route::get('/pending-count', 'pendingCount')->name('admin.wallet-adjustments.pending-count');
+        });
+
         
+        Route::prefix('admin/withdrawals')->name('admin.withdrawals.')->controller(AdminWithdrawalController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{id}', 'show')->name('show');
+            Route::post('/approve/{id}', 'approve')->name('approve');
+            Route::post('/reject/{id}', 'reject')->name('reject');
+            Route::post('/process/{id}', 'process')->name('process');
+            Route::post('/complete/{id}', 'complete')->name('complete');
+            Route::get('/pending-count', 'pendingCount')->name('pending-count');
+            Route::get('/export', 'export')->name('export');
+            
+        });  
 
 
     // Route::prefix('admin-deposits')->controller(AdminDepositController::class)->group(function () {
@@ -251,6 +253,15 @@ Route::prefix('wallet-adjustments')->controller(WalletAdjustmentController::clas
             Route::get('/callback/flutterwave', [WalletDepositController::class, 'flutterwaveCallback'])->name('callback.flutterwave');
         });
         
+        Route::prefix('withdrawals')->name('user.withdrawals.')->controller(WithdrawalController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{id}', 'show')->name('show');
+            Route::put('/{id}/cancel', 'cancel')->name('cancel');
+        });
+
+
         // User Logout
         Route::post('/user/logout', [UserController::class, 'userDestroy'])->name('user.logout');
 

@@ -80,11 +80,17 @@
                     <span>Apply Loan</span>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="{{ route('user.contributions.history') }}" class="btn btn-lg btn-outline-primary">
                     <span>History</span>
                 </a>
-            </li>
+            </li> -->
+        <li>
+            <a href="{{ route('user.withdrawals.create') }}" class="btn btn-lg btn-success">
+                <em class="icon ni ni-arrow-down-left"></em>
+                <span>Withdraw</span>
+            </a>
+        </li>
         </ul>
     </div>
 </div>
@@ -244,23 +250,41 @@
             <span class="nk-menu-text">Fund Wallet</span>
          </a>
       </li>
+
+        <li class="nk-menu-item">
+            <a href="{{ route('user.withdrawals.index') }}" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-coin-alt"></em></span>
+                <span class="nk-menu-text">Withdrawals</span>
+                @if(Auth::user()->withdrawals()->pending()->count() > 0)
+                    <span class="nk-menu-badge">{{ Auth::user()->withdrawals()->pending()->count() }}</span>
+                @endif
+            </a>
+        </li>
+        <li class="nk-menu-item">
+            <a href="{{ route('user.withdrawals.create') }}" class="nk-menu-link">
+                <span class="nk-menu-icon"><em class="icon ni ni-property"></em></span>
+                <span class="nk-menu-text">Request Withdrawal</span>
+            </a>
+        </li>
       
       
-      <li class="nk-menu-item">
+      <!-- <li class="nk-menu-item">
          <a href="#" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="icon ni ni-coin-alt"></em></span>
             <span class="nk-menu-text">Loan Details</span>
          </a>
-      </li>
+      </li> -->
       
-      <li class="nk-menu-item has-sub">
-         <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon"><em class="icon ni ni-property"></em></span><span class="nk-menu-text">Properties</span></a>
+      <!-- <li class="nk-menu-item has-sub">
+         <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon">
+            <em class="icon ni ni-property"></em></span>
+            <span class="nk-menu-text">Properties</span></a>
          <ul class="nk-menu-sub">
             <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Loan Types</span></a></li>
             <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Classification</span></a></li>
             <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Property Details</span></a></li>
          </ul>
-      </li>
+      </li> -->
 
       <li class="nk-menu-item has-sub">
          <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon"><em class="icon ni ni-package"></em></span><span class="nk-menu-text">Package</span></a>

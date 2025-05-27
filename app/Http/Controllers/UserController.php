@@ -12,60 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    /**
-     * Display user dashboard with dynamic data
-     */
-    // public function userDashboard()
-    // {
-    //     $user = Auth::user();
-        
-    //     // Ensure user has a wallet
-    //     if (!$user->wallet) {
-    //         \App\Models\Wallet::create([
-    //             'user_id' => $user->id,
-    //             'balance' => 0.00,
-    //             'total_contributions' => 0.00,
-    //             'status' => 'active'
-    //         ]);
-    //         $user->refresh();
-    //     }
-
-    //     // Get recent transaction history (contributions + adjustments)
-    //     $recentTransactions = $this->getRecentTransactions($user);
-
-    //     // Get monthly statistics
-    //     $monthlyStats = $this->getMonthlyStats($user);
-
-    //     // Get calendar data for current month
-    //     $currentMonth = now()->format('Y-m');
-    //     $calendarData = $this->getCalendarData($user, $currentMonth);
-
-    //     // Get recent notifications
-    //     $notifications = $this->getRecentNotifications($user);
-
-    //     // Get wallet summary
-    //     $walletSummary = [
-    //         'current_balance' => $user->wallet->balance,
-    //         'total_contributions' => $user->wallet->total_contributions,
-    //         'this_month_contributions' => $user->contributions()
-    //             ->whereMonth('contribution_date', now()->month)
-    //             ->whereYear('contribution_date', now()->year)
-    //             ->where('status', 'paid')
-    //             ->sum('amount'),
-    //         'completion_rate' => $this->getCompletionRate($user)
-    //     ];
-
-    //     return view('userend.index', compact(
-    //         'user',
-    //         'recentTransactions',
-    //         'monthlyStats',
-    //         'calendarData',
-    //         'notifications',
-    //         'walletSummary'
-    //     ));
-    // }
-
-    /**
+     /**
      * Display user dashboard with dynamic data
      */
     public function userDashboard()
@@ -176,58 +123,58 @@ class UserController extends Controller
     /**
      * Get recent transactions (contributions + adjustments)
      */
-    private function getRecentTransactions($user, $limit = 10)
-    {
-        $transactions = collect();
+    // private function getRecentTransactions($user, $limit = 10)
+    // {
+    //     $transactions = collect();
 
-        // Get recent contributions
-        $contributions = $user->contributions()
-            ->orderBy('created_at', 'desc')
-            ->take($limit)
-            ->get()
-            ->map(function($contribution) {
-                return [
-                    'id' => $contribution->transaction_id,
-                    'type' => 'contribution',
-                    'title' => 'Daily Contribution',
-                    'description' => 'Contribution for ' . $contribution->contribution_date->format('M d, Y'),
-                    'amount' => $contribution->amount,
-                    'status' => $contribution->status,
-                    'date' => $contribution->created_at,
-                    'icon' => $contribution->amount > 0 ? 'ni-plus-circle' : 'ni-minus-circle',
-                    'color' => $contribution->amount > 0 ? 'success' : 'warning',
-                    'reference' => $contribution->transaction_id
-                ];
-            });
+    //     // Get recent contributions
+    //     $contributions = $user->contributions()
+    //         ->orderBy('created_at', 'desc')
+    //         ->take($limit)
+    //         ->get()
+    //         ->map(function($contribution) {
+    //             return [
+    //                 'id' => $contribution->transaction_id,
+    //                 'type' => 'contribution',
+    //                 'title' => 'Daily Contribution',
+    //                 'description' => 'Contribution for ' . $contribution->contribution_date->format('M d, Y'),
+    //                 'amount' => $contribution->amount,
+    //                 'status' => $contribution->status,
+    //                 'date' => $contribution->created_at,
+    //                 'icon' => $contribution->amount > 0 ? 'ni-plus-circle' : 'ni-minus-circle',
+    //                 'color' => $contribution->amount > 0 ? 'success' : 'warning',
+    //                 'reference' => $contribution->transaction_id
+    //             ];
+    //         });
 
-        // Get recent wallet adjustments
-        $adjustments = WalletAdjustment::where('user_id', $user->id)
-            ->where('status', 'completed')
-            ->orderBy('created_at', 'desc')
-            ->take($limit)
-            ->get()
-            ->map(function($adjustment) {
-                return [
-                    'id' => $adjustment->adjustment_id,
-                    'type' => 'adjustment_' . $adjustment->type,
-                    'title' => ucfirst(str_replace('_', ' ', $adjustment->reason)),
-                    'description' => $adjustment->description,
-                    'amount' => $adjustment->type === 'credit' ? $adjustment->amount : -$adjustment->amount,
-                    'status' => $adjustment->status,
-                    'date' => $adjustment->created_at,
-                    'icon' => $adjustment->type === 'credit' ? 'ni-arrow-up' : 'ni-arrow-down',
-                    'color' => $adjustment->type === 'credit' ? 'info' : 'danger',
-                    'reference' => $adjustment->adjustment_id
-                ];
-            });
+    //     // Get recent wallet adjustments
+    //     $adjustments = WalletAdjustment::where('user_id', $user->id)
+    //         ->where('status', 'completed')
+    //         ->orderBy('created_at', 'desc')
+    //         ->take($limit)
+    //         ->get()
+    //         ->map(function($adjustment) {
+    //             return [
+    //                 'id' => $adjustment->adjustment_id,
+    //                 'type' => 'adjustment_' . $adjustment->type,
+    //                 'title' => ucfirst(str_replace('_', ' ', $adjustment->reason)),
+    //                 'description' => $adjustment->description,
+    //                 'amount' => $adjustment->type === 'credit' ? $adjustment->amount : -$adjustment->amount,
+    //                 'status' => $adjustment->status,
+    //                 'date' => $adjustment->created_at,
+    //                 'icon' => $adjustment->type === 'credit' ? 'ni-arrow-up' : 'ni-arrow-down',
+    //                 'color' => $adjustment->type === 'credit' ? 'info' : 'danger',
+    //                 'reference' => $adjustment->adjustment_id
+    //             ];
+    //         });
 
-        // Combine and sort by date
-        return $transactions->concat($contributions)
-            ->concat($adjustments)
-            ->sortByDesc('date')
-            ->take($limit)
-            ->values();
-    }
+    //     // Combine and sort by date
+    //     return $transactions->concat($contributions)
+    //         ->concat($adjustments)
+    //         ->sortByDesc('date')
+    //         ->take($limit)
+    //         ->values();
+    // }
 
 /**
      * Get corrected monthly statistics for dashboard
@@ -329,53 +276,53 @@ class UserController extends Controller
     /**
      * Get recent notifications
      */
-    private function getRecentNotifications($user)
-    {
-        $notifications = collect();
+    // private function getRecentNotifications($user)
+    // {
+    //     $notifications = collect();
 
-        // Recent contributions (last 7 days)
-        $recentContributions = $user->contributions()
-            ->where('created_at', '>=', now()->subDays(7))
-            ->orderBy('created_at', 'desc')
-            ->get();
+    //     // Recent contributions (last 7 days)
+    //     $recentContributions = $user->contributions()
+    //         ->where('created_at', '>=', now()->subDays(7))
+    //         ->orderBy('created_at', 'desc')
+    //         ->get();
 
-        foreach ($recentContributions as $contribution) {
-            $notifications->push([
-                'type' => $contribution->amount > 0 ? 'contribution_paid' : 'contribution_missed',
-                'title' => $contribution->amount > 0 ? 'Contribution Recorded' : 'Contribution Missed',
-                'message' => $contribution->amount > 0 
-                    ? "Daily contribution of ₦" . number_format($contribution->amount, 2) . " recorded"
-                    : "Missed daily contribution for " . $contribution->contribution_date->format('M d'),
-                'icon' => $contribution->amount > 0 ? 'ni-check-circle' : 'ni-alert-circle',
-                'color' => $contribution->amount > 0 ? 'success' : 'warning',
-                'date' => $contribution->created_at,
-                'time_ago' => $contribution->created_at->diffForHumans()
-            ]);
-        }
+    //     foreach ($recentContributions as $contribution) {
+    //         $notifications->push([
+    //             'type' => $contribution->amount > 0 ? 'contribution_paid' : 'contribution_missed',
+    //             'title' => $contribution->amount > 0 ? 'Contribution Recorded' : 'Contribution Missed',
+    //             'message' => $contribution->amount > 0 
+    //                 ? "Daily contribution of ₦" . number_format($contribution->amount, 2) . " recorded"
+    //                 : "Missed daily contribution for " . $contribution->contribution_date->format('M d'),
+    //             'icon' => $contribution->amount > 0 ? 'ni-check-circle' : 'ni-alert-circle',
+    //             'color' => $contribution->amount > 0 ? 'success' : 'warning',
+    //             'date' => $contribution->created_at,
+    //             'time_ago' => $contribution->created_at->diffForHumans()
+    //         ]);
+    //     }
 
-        // Recent adjustments (last 7 days)
-        $recentAdjustments = WalletAdjustment::where('user_id', $user->id)
-            ->where('created_at', '>=', now()->subDays(7))
-            ->where('status', 'completed')
-            ->orderBy('created_at', 'desc')
-            ->get();
+    //     // Recent adjustments (last 7 days)
+    //     $recentAdjustments = WalletAdjustment::where('user_id', $user->id)
+    //         ->where('created_at', '>=', now()->subDays(7))
+    //         ->where('status', 'completed')
+    //         ->orderBy('created_at', 'desc')
+    //         ->get();
 
-        foreach ($recentAdjustments as $adjustment) {
-            $notifications->push([
-                'type' => 'wallet_adjustment',
-                'title' => 'Wallet Adjustment',
-                'message' => ucfirst(str_replace('_', ' ', $adjustment->reason)) . " - " . 
-                           ($adjustment->type === 'credit' ? '+' : '-') . 
-                           "₦" . number_format($adjustment->amount, 2),
-                'icon' => $adjustment->type === 'credit' ? 'ni-arrow-up' : 'ni-arrow-down',
-                'color' => $adjustment->type === 'credit' ? 'info' : 'danger',
-                'date' => $adjustment->created_at,
-                'time_ago' => $adjustment->created_at->diffForHumans()
-            ]);
-        }
+    //     foreach ($recentAdjustments as $adjustment) {
+    //         $notifications->push([
+    //             'type' => 'wallet_adjustment',
+    //             'title' => 'Wallet Adjustment',
+    //             'message' => ucfirst(str_replace('_', ' ', $adjustment->reason)) . " - " . 
+    //                        ($adjustment->type === 'credit' ? '+' : '-') . 
+    //                        "₦" . number_format($adjustment->amount, 2),
+    //             'icon' => $adjustment->type === 'credit' ? 'ni-arrow-up' : 'ni-arrow-down',
+    //             'color' => $adjustment->type === 'credit' ? 'info' : 'danger',
+    //             'date' => $adjustment->created_at,
+    //             'time_ago' => $adjustment->created_at->diffForHumans()
+    //         ]);
+    //     }
 
-        return $notifications->sortByDesc('date')->take(10)->values();
-    }
+    //     return $notifications->sortByDesc('date')->take(10)->values();
+    // }
 
     /**
      * Get completion rate for current month
@@ -661,6 +608,235 @@ class UserController extends Controller
             'alert-type' => 'success'
         );
         return redirect('/login')->with($notification);
+    }
+
+
+
+    /**
+     * Get recent transactions (contributions + adjustments + withdrawals)
+     */
+    private function getRecentTransactions($user, $limit = 10)
+    {
+        $transactions = collect();
+
+        // Get recent contributions
+        $contributions = $user->contributions()
+            ->orderBy('created_at', 'desc')
+            ->take($limit)
+            ->get()
+            ->map(function($contribution) {
+                return [
+                    'id' => $contribution->transaction_id,
+                    'type' => 'contribution',
+                    'title' => 'Daily Contribution',
+                    'description' => 'Contribution for ' . $contribution->contribution_date->format('M d, Y'),
+                    'amount' => $contribution->amount,
+                    'status' => $contribution->status,
+                    'date' => $contribution->created_at,
+                    'icon' => $contribution->amount > 0 ? 'ni-plus-circle' : 'ni-minus-circle',
+                    'color' => $contribution->amount > 0 ? 'success' : 'warning',
+                    'reference' => $contribution->transaction_id
+                ];
+            });
+
+        // Get recent wallet adjustments
+        $adjustments = WalletAdjustment::where('user_id', $user->id)
+            ->where('status', 'completed')
+            ->orderBy('created_at', 'desc')
+            ->take($limit)
+            ->get()
+            ->map(function($adjustment) {
+                return [
+                    'id' => $adjustment->adjustment_id,
+                    'type' => 'adjustment_' . $adjustment->type,
+                    'title' => ucfirst(str_replace('_', ' ', $adjustment->reason)),
+                    'description' => $adjustment->description,
+                    'amount' => $adjustment->type === 'credit' ? $adjustment->amount : -$adjustment->amount,
+                    'status' => $adjustment->status,
+                    'date' => $adjustment->created_at,
+                    'icon' => $adjustment->type === 'credit' ? 'ni-arrow-up' : 'ni-arrow-down',
+                    'color' => $adjustment->type === 'credit' ? 'info' : 'danger',
+                    'reference' => $adjustment->adjustment_id
+                ];
+            });
+
+        // Get recent withdrawals
+        $withdrawals = $user->withdrawals()
+            ->orderBy('created_at', 'desc')
+            ->take($limit)
+            ->get()
+            ->map(function($withdrawal) {
+                return [
+                    'id' => $withdrawal->withdrawal_id,
+                    'type' => 'withdrawal',
+                    'title' => 'Withdrawal Request',
+                    'description' => 'Withdrawal via ' . $withdrawal->payment_method_label . ' - ' . ucfirst($withdrawal->status),
+                    'amount' => -$withdrawal->amount, // Negative because it's money going out
+                    'status' => $withdrawal->status,
+                    'date' => $withdrawal->created_at,
+                    'icon' => 'ni-send',
+                    'color' => $this->getWithdrawalColor($withdrawal->status),
+                    'reference' => $withdrawal->withdrawal_id
+                ];
+            });
+
+        // Combine and sort by date
+        return $transactions->concat($contributions)
+            ->concat($adjustments)
+            ->concat($withdrawals)
+            ->sortByDesc('date')
+            ->take($limit)
+            ->values();
+    }
+
+    /**
+     * Get recent notifications including withdrawals
+     */
+   /**
+     * Get recent notifications (limited and organized)
+     */
+    private function getRecentNotifications($user, $limit = 5)
+    {
+        $notifications = collect();
+
+        // Recent contributions (last 7 days) - limit to 3 most recent
+        $recentContributions = $user->contributions()
+            ->where('created_at', '>=', now()->subDays(7))
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        foreach ($recentContributions as $contribution) {
+            $notifications->push([
+                'type' => $contribution->amount > 0 ? 'contribution_paid' : 'contribution_missed',
+                'title' => $contribution->amount > 0 ? 'Contribution Recorded' : 'Contribution Missed',
+                'message' => $contribution->amount > 0 
+                    ? "Daily contribution of ₦" . number_format($contribution->amount, 2) . " recorded"
+                    : "Missed daily contribution for " . $contribution->contribution_date->format('M d'),
+                'icon' => $contribution->amount > 0 ? 'ni-check-circle' : 'ni-alert-circle',
+                'color' => $contribution->amount > 0 ? 'success' : 'warning',
+                'date' => $contribution->created_at,
+                'time_ago' => $contribution->created_at->diffForHumans(),
+                'reference' => $contribution->transaction_id
+            ]);
+        }
+
+        // Recent adjustments (last 7 days) - limit to 2 most recent
+        $recentAdjustments = WalletAdjustment::where('user_id', $user->id)
+            ->where('created_at', '>=', now()->subDays(7))
+            ->where('status', 'completed')
+            ->orderBy('created_at', 'desc')
+            ->take(2)
+            ->get();
+
+        foreach ($recentAdjustments as $adjustment) {
+            $notifications->push([
+                'type' => 'adjustment_' . $adjustment->type,
+                'title' => 'Wallet Adjustment',
+                'message' => ucfirst(str_replace('_', ' ', $adjustment->reason)) . " - " . 
+                           ($adjustment->type === 'credit' ? '+' : '-') . 
+                           "₦" . number_format($adjustment->amount, 2),
+                'icon' => $adjustment->type === 'credit' ? 'ni-arrow-up' : 'ni-arrow-down',
+                'color' => $adjustment->type === 'credit' ? 'info' : 'danger',
+                'date' => $adjustment->created_at,
+                'time_ago' => $adjustment->created_at->diffForHumans(),
+                'reference' => $adjustment->adjustment_id
+            ]);
+        }
+
+        // Mock withdrawal notifications (replace with actual withdrawal model when available)
+        // This is just for demonstration - remove when you implement actual withdrawals
+        if (rand(1, 10) > 7) { // Random chance for demo
+            $notifications->push([
+                'type' => 'withdrawal_pending',
+                'title' => 'Withdrawal Request',
+                'message' => 'Your withdrawal request of ₦' . number_format(25000, 2) . ' is pending approval',
+                'icon' => 'ni-wallet-out',
+                'color' => 'warning',
+                'date' => now()->subHours(2),
+                'time_ago' => now()->subHours(2)->diffForHumans(),
+                'reference' => 'WTH-' . strtoupper(uniqid()),
+                'withdrawal_id' => 'WTH-' . strtoupper(uniqid())
+            ]);
+        }
+
+        return $notifications->sortByDesc('date')->take($limit);
+    }
+
+    /**
+     * Get withdrawal status color
+     */
+    private function getWithdrawalColor($status)
+    {
+        $colors = [
+            'pending' => 'warning',
+            'approved' => 'info',
+            'processing' => 'primary',
+            'completed' => 'success',
+            'rejected' => 'danger',
+            'cancelled' => 'secondary'
+        ];
+
+        return $colors[$status] ?? 'secondary';
+    }
+
+    /**
+     * Get withdrawal notification title
+     */
+    private function getWithdrawalNotificationTitle($status)
+    {
+        $titles = [
+            'pending' => 'Withdrawal Pending',
+            'approved' => 'Withdrawal Approved',
+            'processing' => 'Withdrawal Processing',
+            'completed' => 'Withdrawal Completed',
+            'rejected' => 'Withdrawal Rejected',
+            'cancelled' => 'Withdrawal Cancelled'
+        ];
+
+        return $titles[$status] ?? 'Withdrawal Update';
+    }
+
+    /**
+     * Get withdrawal notification message
+     */
+    private function getWithdrawalNotificationMessage($withdrawal)
+    {
+        $amount = "₦" . number_format($withdrawal->amount, 2);
+        
+        switch ($withdrawal->status) {
+            case 'pending':
+                return "Your withdrawal request of {$amount} is awaiting admin approval";
+            case 'approved':
+                return "Your withdrawal of {$amount} has been approved and deducted from your wallet";
+            case 'processing':
+                return "Your withdrawal of {$amount} is being processed for payment";
+            case 'completed':
+                return "Your withdrawal of {$amount} has been completed successfully";
+            case 'rejected':
+                return "Your withdrawal request of {$amount} was rejected";
+            case 'cancelled':
+                return "Your withdrawal request of {$amount} was cancelled";
+            default:
+                return "Withdrawal status updated: {$amount}";
+        }
+    }
+
+    /**
+     * Get withdrawal notification icon
+     */
+    private function getWithdrawalNotificationIcon($status)
+    {
+        $icons = [
+            'pending' => 'ni-clock',
+            'approved' => 'ni-check-circle',
+            'processing' => 'ni-loader',
+            'completed' => 'ni-check-double',
+            'rejected' => 'ni-cross-circle',
+            'cancelled' => 'ni-na'
+        ];
+
+        return $icons[$status] ?? 'ni-send';
     }
     
 }

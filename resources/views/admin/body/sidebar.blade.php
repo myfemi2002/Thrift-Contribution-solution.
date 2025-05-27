@@ -161,6 +161,44 @@
                                     </li>
                                 </ul>
                             </li>
+
+                            
+                           <li class="nk-menu-item has-sub">
+                              <a href="#" class="nk-menu-link nk-menu-toggle">
+                                 <span class="nk-menu-icon"><em class="icon ni ni-money"></em></span>
+                                 <span class="nk-menu-text">Withdrawals</span>
+                                 @php $pendingWithdrawals = \App\Models\Withdrawal::pending()->count(); @endphp
+                                 @if($pendingWithdrawals > 0)
+                                       <span class="nk-menu-badge">{{ $pendingWithdrawals }}</span>
+                                 @endif
+                              </a>
+                              <ul class="nk-menu-sub">
+                                 <li class="nk-menu-item">
+                                       <a href="{{ route('admin.withdrawals.index') }}" class="nk-menu-link">
+                                          <span class="nk-menu-text">All Withdrawals</span>
+                                       </a>
+                                 </li>
+                                 <li class="nk-menu-item">
+                                       <a href="{{ route('admin.withdrawals.index') }}?status=pending" class="nk-menu-link">
+                                          <span class="nk-menu-text">Pending Approval</span>
+                                          @if($pendingWithdrawals > 0)
+                                             <span class="nk-menu-badge badge-warning">{{ $pendingWithdrawals }}</span>
+                                          @endif
+                                       </a>
+                                 </li>
+                                 <li class="nk-menu-item">
+                                       <a href="{{ route('admin.withdrawals.index') }}?status=approved" class="nk-menu-link">
+                                          <span class="nk-menu-text">Approved</span>
+                                       </a>
+                                 </li>
+                                 <li class="nk-menu-item">
+                                       <a href="{{ route('admin.withdrawals.index') }}?status=completed" class="nk-menu-link">
+                                          <span class="nk-menu-text">Completed</span>
+                                       </a>
+                                 </li>
+                              </ul>
+                           </li>
+
                               
                               <li class="nk-menu-item">
                                     <a href="#" class="nk-menu-link">
