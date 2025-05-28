@@ -13,6 +13,7 @@
       <title>Crypto Dashboard |  Admin</title>
       <link rel="stylesheet" href="{{ $assetBase }}/css/dashlite.css?ver=3.3.0">
       <link id="skin-default" rel="stylesheet" href="{{ $assetBase }}/css/theme.css?ver=3.3.0">
+      <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
       <script async="" src="{{ $assetBase }}/gtag/js?id=UA-91615293-4"></script><script>window.dataLayer = window.dataLayer || [];function gtag() {dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-91615293-4');</script> 
    </head>
    <body class="nk-body npc-crypto bg-white has-sidebar ">
@@ -52,7 +53,6 @@
       <script src="{{ $assetBase }}/js/bundle.js?ver=3.3.0"></script>
       <script src="{{ $assetBase }}/js/scripts.js?ver=3.3.0"></script>
       <script src="{{ $assetBase }}/js/demo-settings.js?ver=3.3.0"></script>
-      <script src="{{ $assetBase }}/js/charts/chart-crypto.js?ver=3.3.0"></script>
       <script src="{{ $assetBase }}/js/libs/fullcalendar.js?ver=3.3.0"></script>
       <script src="{{ $assetBase }}/js/apps/calendar.js?ver=3.3.0"></script>
       

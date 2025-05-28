@@ -1,5 +1,3 @@
-{{-- backend.withdrawals.index --}}
-
 @extends('admin.admin_master')
 @section('title', 'Withdrawal Management')
 @section('admin')
@@ -160,14 +158,16 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">&nbsp;</label>
-                                <div class="d-flex gap-2">
+                                                               
+                                <div class="form-group">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="ri-search-line me-1"></i>Filter
+                                        <em class="icon ni ni-search"></em>
                                     </button>
                                     <a href="{{ route('admin.withdrawals.index') }}" class="btn btn-outline-secondary">
-                                        <i class="ri-refresh-line"></i>
+                                        <em class="icon ni ni-reload"></em>
                                     </a>
                                 </div>
+                                
                             </div>
                         </div>
                     </form>

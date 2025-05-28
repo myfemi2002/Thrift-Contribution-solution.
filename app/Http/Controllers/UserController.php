@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\DailyContribution;
-use App\Models\WalletAdjustment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
+use App\Models\WalletAdjustment;
+use App\Models\DailyContribution;
 use Illuminate\Support\Facades\DB;
+
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class UserController extends Controller
 {
@@ -62,121 +69,239 @@ class UserController extends Controller
     }
 
     /**
-     * Get corrected monthly statistics (fixed version)
+     * Show user profile page
      */
-    // private function getCorrectedMonthlyStats($user)
-    // {
-    //     $currentMonth = now();
+    public function showProfile()
+    {
+        $user = Auth::user();
         
-    //     // Get actual contributions for this month
-    //     $monthlyContributions = $user->contributions()
-    //         ->whereMonth('contribution_date', $currentMonth->month)
-    //         ->whereYear('contribution_date', $currentMonth->year)
-    //         ->get();
-
-    //     // Get monthly adjustments that affect contribution totals
-    //     $monthlyAdjustments = $user->wallet->adjustments()
-    //         ->whereMonth('created_at', $currentMonth->month)
-    //         ->whereYear('created_at', $currentMonth->year)
-    //         ->where('status', 'completed')
-    //         ->get();
-
-    //     // Calculate actual monthly total (excluding wrong adjustments)
-    //     $contributionsAmount = $monthlyContributions->where('status', 'paid')->sum('amount');
+        // Get user's loan statistics if loan system is available
+        $loanStats = [];
+        if (class_exists('App\Models\LoanWallet')) {
+            $loanWallet = $user->loanWallet;
+            if ($loanWallet) {
+                $loanStats = [
+                    'total_loans' => $user->loans()->count(),
+                    'active_loans' => $user->loans()->whereIn('status', ['disbursed', 'active'])->count(),
+                    'completed_loans' => $user->loans()->where('status', 'completed')->count(),
+                    'total_borrowed' => $loanWallet->total_borrowed,
+                    'total_repaid' => $loanWallet->total_repaid,
+                    'current_loan_balance' => $loanWallet->balance,
+                ];
+            }
+        }
         
-    //     // Add legitimate omitted contributions
-    //     $omittedContributions = $monthlyAdjustments
-    //         ->where('type', 'credit')
-    //         ->where('reason', 'omitted_contribution')
-    //         ->sum('amount');
-        
-    //     // Subtract corrections that shouldn't count as contributions
-    //     $corrections = $monthlyAdjustments
-    //         ->where('type', 'debit')
-    //         ->whereIn('reason', ['correction_error', 'refund', 'penalty', 'duplicate_payment'])
-    //         ->sum('amount');
-
-    //     $actualMonthlyTotal = $contributionsAmount + $omittedContributions - $corrections;
-    //     $paidDaysCount = $monthlyContributions->where('status', 'paid')->where('amount', '>', 0)->count();
-    //     $unpaidDaysCount = $monthlyContributions->where('status', 'unpaid')->count() + 
-    //                       $monthlyContributions->where('amount', '<=', 0)->count();
-
-    //     return [
-    //         'total_days' => $monthlyContributions->count(),
-    //         'paid_days' => $paidDaysCount,
-    //         'unpaid_days' => $unpaidDaysCount,
-    //         'total_amount' => $actualMonthlyTotal, // Corrected amount
-    //         'average_daily' => $paidDaysCount > 0 ? ($actualMonthlyTotal / $paidDaysCount) : 0,
-    //         'completion_rate' => $monthlyContributions->count() > 0 
-    //             ? ($paidDaysCount / $monthlyContributions->count()) * 100 
-    //             : 0,
-    //         'month_name' => $currentMonth->format('F Y'),
-    //         'breakdown' => [
-    //             'raw_contributions' => $contributionsAmount,
-    //             'omitted_additions' => $omittedContributions,
-    //             'corrections_subtracted' => $corrections,
-    //             'net_adjustments' => $omittedContributions - $corrections
-    //         ]
-    //     ];
-    // }
+        return view('userend.profile.index', compact('user', 'loanStats'));
+    }
 
     /**
-     * Get recent transactions (contributions + adjustments)
+     * Show edit profile form
      */
-    // private function getRecentTransactions($user, $limit = 10)
-    // {
-    //     $transactions = collect();
+    public function editProfile()
+    {
+        $user = Auth::user();
+        return view('userend.profile.edit', compact('user'));
+    }
 
-    //     // Get recent contributions
-    //     $contributions = $user->contributions()
-    //         ->orderBy('created_at', 'desc')
-    //         ->take($limit)
-    //         ->get()
-    //         ->map(function($contribution) {
-    //             return [
-    //                 'id' => $contribution->transaction_id,
-    //                 'type' => 'contribution',
-    //                 'title' => 'Daily Contribution',
-    //                 'description' => 'Contribution for ' . $contribution->contribution_date->format('M d, Y'),
-    //                 'amount' => $contribution->amount,
-    //                 'status' => $contribution->status,
-    //                 'date' => $contribution->created_at,
-    //                 'icon' => $contribution->amount > 0 ? 'ni-plus-circle' : 'ni-minus-circle',
-    //                 'color' => $contribution->amount > 0 ? 'success' : 'warning',
-    //                 'reference' => $contribution->transaction_id
-    //             ];
-    //         });
+    /**
+     * Update user profile
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'username' => 'nullable|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:500',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
-    //     // Get recent wallet adjustments
-    //     $adjustments = WalletAdjustment::where('user_id', $user->id)
-    //         ->where('status', 'completed')
-    //         ->orderBy('created_at', 'desc')
-    //         ->take($limit)
-    //         ->get()
-    //         ->map(function($adjustment) {
-    //             return [
-    //                 'id' => $adjustment->adjustment_id,
-    //                 'type' => 'adjustment_' . $adjustment->type,
-    //                 'title' => ucfirst(str_replace('_', ' ', $adjustment->reason)),
-    //                 'description' => $adjustment->description,
-    //                 'amount' => $adjustment->type === 'credit' ? $adjustment->amount : -$adjustment->amount,
-    //                 'status' => $adjustment->status,
-    //                 'date' => $adjustment->created_at,
-    //                 'icon' => $adjustment->type === 'credit' ? 'ni-arrow-up' : 'ni-arrow-down',
-    //                 'color' => $adjustment->type === 'credit' ? 'info' : 'danger',
-    //                 'reference' => $adjustment->adjustment_id
-    //             ];
-    //         });
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-    //     // Combine and sort by date
-    //     return $transactions->concat($contributions)
-    //         ->concat($adjustments)
-    //         ->sortByDesc('date')
-    //         ->take($limit)
-    //         ->values();
-    // }
+        try {
+            $updateData = [
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+            ];
 
-/**
+            // Handle photo upload
+            if ($request->hasFile('photo')) {
+                $photo = $this->handlePhotoUpload($request->file('photo'), $user);
+                if ($photo) {
+                    $updateData['photo'] = $photo;
+                }
+            }
+
+            $user->update($updateData);
+
+            return redirect()->route('user.profile')
+                ->with('message', 'Profile updated successfully!')
+                ->with('alert-type', 'success');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('message', 'Failed to update profile: ' . $e->getMessage())
+                ->with('alert-type', 'error');
+        }
+    }
+
+    /**
+     * Change user password
+     */
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with('tab', 'security');
+        }
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()
+                ->withErrors(['current_password' => 'Current password is incorrect'])
+                ->with('tab', 'security');
+        }
+
+        try {
+            $user->update([
+                'password' => Hash::make($request->new_password),
+                'last_password_change' => now()->toDateTimeString()
+            ]);
+
+            return redirect()->back()
+                ->with('message', 'Password changed successfully!')
+                ->with('alert-type', 'success')
+                ->with('tab', 'security');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('message', 'Failed to change password')
+                ->with('alert-type', 'error')
+                ->with('tab', 'security');
+        }
+    }
+
+    /**
+     * Show user settings page
+     */
+    public function showSettings()
+    {
+        $user = Auth::user();
+        return view('userend.profile.settings', compact('user'));
+    }
+
+    /**
+     * Update user settings/preferences
+     */
+    public function updateSettings(Request $request)
+    {
+        $user = Auth::user();
+        
+        $settings = [
+            'email_notifications' => $request->has('email_notifications'),
+            'sms_notifications' => $request->has('sms_notifications'),
+            'push_notifications' => $request->has('push_notifications'),
+            'newsletter_subscription' => $request->has('newsletter_subscription'),
+            'dark_mode' => $request->has('dark_mode'),
+            'language' => $request->language ?? 'en',
+            'timezone' => $request->timezone ?? 'UTC',
+        ];
+        
+        $user->setProfileField('settings', $settings);
+        
+        return redirect()->back()
+            ->with('message', 'Settings updated successfully!')
+            ->with('alert-type', 'success');
+    }
+
+    /**
+     * Handle photo upload
+     */
+    private function handlePhotoUpload($file, $user)
+    {
+        try {
+            $uploadPath = 'upload/user_images';
+            
+            // Create directory if it doesn't exist
+            if (!File::exists(public_path($uploadPath))) {
+                File::makeDirectory(public_path($uploadPath), 0777, true);
+            }
+
+            // Delete old photo if exists
+            if ($user->photo && File::exists(public_path($user->photo))) {
+                File::delete(public_path($user->photo));
+            }
+
+            // Generate filename
+            $filename = 'user_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $fullPath = $uploadPath . '/' . $filename;
+
+            // Resize and save image
+            $imageManager = new ImageManager(new Driver());
+            $image = $imageManager->read($file->getRealPath());
+            $image->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $image->save(public_path($fullPath), 80);
+
+            return $fullPath;
+
+        } catch (\Exception $e) {
+            Log::error('Photo upload failed: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Get user profile data for API/AJAX
+     */
+    public function getProfileData()
+    {
+        $user = Auth::user();
+        
+        return response()->json([
+            'success' => true,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'username' => $user->username,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'address' => $user->address,
+                'photo' => $user->photo,
+                'role' => $user->role,
+                'status' => $user->status,
+                'credit_rating' => $user->credit_rating,
+                'loan_interest_rate' => $user->loan_interest_rate,
+                'profile' => $user->profile,
+                'created_at' => $user->created_at,
+                'last_login_at' => $user->last_login_at,
+            ]
+        ]);
+    }
+
+
+
+
+    /**
      * Get corrected monthly statistics for dashboard
      */
     private function getMonthlyStats($user)

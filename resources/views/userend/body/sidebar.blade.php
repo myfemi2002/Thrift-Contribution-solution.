@@ -76,8 +76,8 @@
     <div class="user-account-actions">
         <ul class="g-3">
             <li>
-                <a href="#" class="btn btn-lg btn-primary">
-                    <span>Apply Loan</span>
+                <a href="{{ route('user.loans.index') }}" class="btn btn-lg btn-primary">
+                    <span>My Loan</span>
                 </a>
             </li>
             <!-- <li>
@@ -266,33 +266,44 @@
                 <span class="nk-menu-text">Request Withdrawal</span>
             </a>
         </li>
-      
-      
-      <!-- <li class="nk-menu-item">
-         <a href="#" class="nk-menu-link">
-            <span class="nk-menu-icon"><em class="icon ni ni-coin-alt"></em></span>
-            <span class="nk-menu-text">Loan Details</span>
-         </a>
-      </li> -->
-      
-      <!-- <li class="nk-menu-item has-sub">
-         <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon">
-            <em class="icon ni ni-property"></em></span>
-            <span class="nk-menu-text">Properties</span></a>
-         <ul class="nk-menu-sub">
-            <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Loan Types</span></a></li>
-            <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Classification</span></a></li>
-            <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Property Details</span></a></li>
-         </ul>
-      </li> -->
 
+        
+      <!-- Loan Management Section -->
       <li class="nk-menu-item has-sub">
-         <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon"><em class="icon ni ni-package"></em></span><span class="nk-menu-text">Package</span></a>
+         <a href="#" class="nk-menu-link nk-menu-toggle">
+            <span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
+            <span class="nk-menu-text">Loans</span>
+            <!-- @php
+               $pendingCount = Auth::user()->loanNotifications()->unread()->count();
+            @endphp
+            @if($pendingCount > 0)
+               <span class="nk-menu-badge">{{ $pendingCount }}</span>
+            @endif -->
+         </a>
          <ul class="nk-menu-sub">
-            <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Loan Package</span></a></li>
-            <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Package Documents</span></a></li>
-            <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Loan Application</span></a></li>
+            <li class="nk-menu-item">
+               <a href="{{ route('user.loans.index') }}" class="nk-menu-link">
+                  <span class="nk-menu-text">My Loans</span>
+               </a>
+            </li>
+            <li class="nk-menu-item">
+               <a href="{{ route('user.loans.create') }}" class="nk-menu-link">
+                  <span class="nk-menu-text">Apply for Loan</span>
+               </a>
+            </li>
+            <li class="nk-menu-item">
+               <a href="{{ route('user.loans.history') }}" class="nk-menu-link">
+                  <span class="nk-menu-text">Loan History</span>
+               </a>
+            </li>
          </ul>
+      </li>
+      
+      <li class="nk-menu-item">
+         <a href="{{ route('user.profile') }}" class="nk-menu-link">
+            <span class="nk-menu-icon"><em class="icon ni ni-account-setting"></em></span>
+            <span class="nk-menu-text">My Profile</span>
+         </a>
       </li>
 
       <li class="nk-menu-item">
@@ -302,14 +313,26 @@
          </a>
       </li>
       
-      <li class="nk-menu-item">
+      
+
+
+      <!-- <li class="nk-menu-item has-sub">
+         <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon"><em class="icon ni ni-package"></em></span><span class="nk-menu-text">Package</span></a>
+         <ul class="nk-menu-sub">
+            <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Loan Package</span></a></li>
+            <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Package Documents</span></a></li>
+            <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Loan Application</span></a></li>
+         </ul>
+      </li> -->
+      
+      <!-- <li class="nk-menu-item">
          <a href="#" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="icon ni ni-growth"></em></span>
             <span class="nk-menu-text">Report</span>
          </a>
-      </li>
+      </li> -->
       
-      <li class="nk-menu-item">
+      <!-- <li class="nk-menu-item">
          <a href="#" class="nk-menu-link">
             <span class="nk-menu-icon"><em class="icon ni ni-view-col2"></em></span>
             <span class="nk-menu-text">Branches</span>
@@ -331,7 +354,7 @@
             <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Overdue Repayments</span></a></li>
             <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Application List</span></a></li>
          </ul>
-      </li>
+      </li> -->
 
     </ul>
 </div>

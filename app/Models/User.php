@@ -32,6 +32,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'profile' => 'array',
         'last_login_at' => 'datetime',
         'last_failed_login_at' => 'datetime',
         'is_logged_in' => 'boolean',
@@ -152,6 +153,101 @@ class User extends Authenticatable
     public function approvedWithdrawals()
     {
         return $this->hasMany(Withdrawal::class, 'approved_by');
+    }
+
+    public function loanWallet()
+    {
+        return $this->hasOne(LoanWallet::class);
+    }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
+    }
+
+    public function loanNotifications()
+    {
+        return $this->hasMany(LoanNotification::class);
+    }
+
+    public function recordedRepayments()
+    {
+        return $this->hasMany(LoanRepayment::class, 'recorded_by');
+    }
+
+    public function approvedLoans()
+    {
+        return $this->hasMany(Loan::class, 'approved_by');
+    }
+    
+    /**
+     * Get user's loan interest rate based on credit rating
+     */
+    public function getLoanInterestRateAttribute()
+    {
+        $profile = $this->profile ?? [];
+        return $profile['loan_interest_rate'] ?? 10.0; // Default 10%
+    }
+
+    /**
+     * Get user's credit rating
+     */
+    public function getCreditRatingAttribute()
+    {
+        $profile = $this->profile ?? [];
+        return $profile['credit_rating'] ?? null;
+    }
+
+    /**
+     * Get user's credit rating badge HTML
+     */
+    public function getCreditRatingBadgeAttribute()
+    {
+        $creditRating = $this->credit_rating;
+        
+        if (!$creditRating) {
+            return '<span class="badge bg-light text-dark">No Rating</span>';
+        }
+
+        $badges = [
+            'Gold Saver' => '<span class="badge bg-warning text-dark">🥇 Gold Saver</span>',
+            'Silver Saver' => '<span class="badge bg-secondary">🥈 Silver Saver</span>',
+            'Bronze Saver' => '<span class="badge bg-dark text-light">🥉 Bronze Saver</span>'
+        ];
+
+        return $badges[$creditRating] ?? '<span class="badge bg-light text-dark">' . $creditRating . '</span>';
+    }
+
+    /**
+     * Update user's loan profile (interest rate and credit rating)
+     */
+    public function updateLoanProfile($interestRate, $creditRating)
+    {
+        $profile = $this->profile ?? [];
+        $profile['loan_interest_rate'] = $interestRate;
+        $profile['credit_rating'] = $creditRating;
+        $profile['credit_rating_updated_at'] = now()->toISOString();
+        
+        $this->update(['profile' => $profile]);
+    }
+
+    /**
+     * Get profile field value
+     */
+    public function getProfileField($key, $default = null)
+    {
+        $profile = $this->profile ?? [];
+        return $profile[$key] ?? $default;
+    }
+
+    /**
+     * Set profile field value
+     */
+    public function setProfileField($key, $value)
+    {
+        $profile = $this->profile ?? [];
+        $profile[$key] = $value;
+        $this->update(['profile' => $profile]);
     }
 }
     

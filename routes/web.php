@@ -11,6 +11,8 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\UserLoanController;
+use App\Http\Controllers\AdminLoanController;
 use App\Http\Controllers\GroupNameController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\WithdrawalController;
@@ -63,14 +65,23 @@ use App\Http\Controllers\RoleWithPermissionController;
 
 
     Route::middleware(['auth','roles:admin'])->group(function () {
-        Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
+        // Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
         Route::get('/logout', [AdminController::class, 'adminDestroy'])->name('admin.logout');
         Route::get('/profile', [AdminController::class, 'adminProfile'])->name('admin.profile');
         Route::post('/profile/store', [AdminController::class, 'adminProfileStore'])->name('admin.profile.store');
         Route::get('/change/password', [AdminController::class, 'adminChangePassword'])->name('admin.change.password');
-        Route::post('/update/password', [AdminController::class, 'adminUpdatePassword'])->name('update.password');  
-    });
+        Route::post('/update/password', [AdminController::class, 'adminUpdatePassword'])->name('update.password'); 
+        
+        
 
+    // Dashboard Routes
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard/data', [AdminController::class, 'getDashboardData'])->name('admin.dashboard.data');
+    Route::get('/dashboard/quick-actions', [AdminController::class, 'getQuickActions'])->name('admin.dashboard.quick-actions');
+    
+
+
+    });
 
     // All Admin Routes Middleware Starts Here
     Route::middleware(['auth', 'roles:admin'])->group(function () {
@@ -120,9 +131,33 @@ use App\Http\Controllers\RoleWithPermissionController;
             Route::post('/process/{id}', 'process')->name('process');
             Route::post('/complete/{id}', 'complete')->name('complete');
             Route::get('/pending-count', 'pendingCount')->name('pending-count');
-            Route::get('/export', 'export')->name('export');
-            
+            Route::get('/export', 'export')->name('export');            
         });  
+
+        // Admin Loan Routes
+        Route::prefix('admin/loans')->name('admin.loans.')->group(function () {
+            Route::get('/', [AdminLoanController::class, 'index'])->name('index');
+            Route::get('/{id}', [AdminLoanController::class, 'show'])->name('show');
+            Route::post('/{id}/approve', [AdminLoanController::class, 'approve'])->name('approve');
+            Route::post('/{id}/reject', [AdminLoanController::class, 'reject'])->name('reject');
+            Route::post('/{id}/disburse', [AdminLoanController::class, 'disburse'])->name('disburse');
+            Route::post('/{id}/interest-rate', [AdminLoanController::class, 'updateInterestRate'])->name('update-interest-rate');
+            
+            // Repayment Routes
+            Route::get('/{id}/repayment', [AdminLoanController::class, 'showRepaymentForm'])->name('repayment');
+            Route::post('/{id}/repayment', [AdminLoanController::class, 'recordRepayment'])->name('record-repayment');
+            
+            // Utility Routes
+            Route::post('/search-user', [AdminLoanController::class, 'searchUser'])->name('search-user');
+            Route::get('/export', [AdminLoanController::class, 'export'])->name('export');
+            Route::post('/check-overdue', [AdminLoanController::class, 'checkOverdueLoans'])->name('check-overdue');
+            Route::post('/bulk-approve', [AdminLoanController::class, 'bulkApprove'])->name('bulk-approve');
+            Route::get('/stats', [AdminLoanController::class, 'getStats'])->name('stats');
+            Route::get('/pending-count', [AdminLoanController::class, 'getPendingCount'])->name('pending-count');
+            
+            // Loan Wallet Routes
+            Route::get('/wallet/{userId}', [AdminLoanController::class, 'showLoanWallet'])->name('wallet');
+        });
 
 
     // Route::prefix('admin-deposits')->controller(AdminDepositController::class)->group(function () {
@@ -215,6 +250,31 @@ use App\Http\Controllers\RoleWithPermissionController;
         //     Route::get('/user-change/password', 'userChangePassword')->name('user.change.password');
         //     Route::post('/user-update/password', 'userUpdatePassword')->name('user.update.password');
         // });
+        
+        
+        // Profile Routes
+        Route::prefix('profile')->group(function () {
+            Route::get('/', [UserController::class, 'showProfile'])->name('user.profile');
+            Route::get('/edit', [UserController::class, 'editProfile'])->name('user.profile.edit');
+            Route::put('/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+            Route::post('/change-password', [UserController::class, 'changePassword'])->name('user.profile.change-password');
+            Route::get('/settings', [UserController::class, 'showSettings'])->name('user.profile.settings');
+            Route::post('/settings', [UserController::class, 'updateSettings'])->name('user.profile.settings.update');
+            
+            // API endpoints
+            Route::get('/data', [UserController::class, 'getProfileData'])->name('user.profile.data');
+        });
+        
+        
+        // Profile and Settings Routes
+        Route::prefix('user')->group(function () {
+            // Route::get('/profile', [UserController::class, 'showProfile'])->name('user.profile');
+            // Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+            Route::get('/security', [UserController::class, 'securitySettings'])->name('user.security');
+            Route::post('/security/update', [UserController::class, 'updateSecurity'])->name('user.security.update');
+            Route::get('/notifications', [UserController::class, 'notifications'])->name('user.notifications');
+        });
+
 
     
         // Dashboard
@@ -235,16 +295,6 @@ use App\Http\Controllers\RoleWithPermissionController;
             Route::get('/export', [UserController::class, 'exportContributions'])->name('user.contributions.export');
         });
         
-        // Profile and Settings Routes
-        Route::prefix('user')->group(function () {
-            Route::get('/profile', [UserController::class, 'showProfile'])->name('user.profile');
-            Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
-            Route::get('/security', [UserController::class, 'securitySettings'])->name('user.security');
-            Route::post('/security/update', [UserController::class, 'updateSecurity'])->name('user.security.update');
-            Route::get('/notifications', [UserController::class, 'notifications'])->name('user.notifications');
-        });
-
-        
         Route::prefix('wallet/deposit')->name('user.wallet.deposit.')->group(function () {
             Route::get('/', [WalletDepositController::class, 'index'])->name('index');
             Route::get('/create', [WalletDepositController::class, 'create'])->name('create');
@@ -259,6 +309,22 @@ use App\Http\Controllers\RoleWithPermissionController;
             Route::post('/store', 'store')->name('store');
             Route::get('/{id}', 'show')->name('show');
             Route::put('/{id}/cancel', 'cancel')->name('cancel');
+        });
+
+        // User Loan Routes
+        Route::prefix('user/loans')->name('user.loans.')->group(function () {
+            Route::get('/', [UserLoanController::class, 'index'])->name('index');
+            Route::get('/create', [UserLoanController::class, 'create'])->name('create');
+            Route::post('/store', [UserLoanController::class, 'store'])->name('store');
+            Route::get('/{id}', [UserLoanController::class, 'show'])->name('show');
+            Route::get('/history/all', [UserLoanController::class, 'history'])->name('history');
+            
+            // AJAX Routes
+            Route::post('/calculate', [UserLoanController::class, 'calculateLoan'])->name('calculate');
+            Route::get('/notifications/get', [UserLoanController::class, 'getNotifications'])->name('notifications');
+            Route::get('/notifications/popup', [UserLoanController::class, 'getPopupNotifications'])->name('popup-notifications');
+            Route::post('/notifications/{id}/read', [UserLoanController::class, 'markNotificationAsRead'])->name('notifications.read');
+            Route::post('/notifications/read-all', [UserLoanController::class, 'markAllNotificationsAsRead'])->name('notifications.read-all');
         });
 
 

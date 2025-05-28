@@ -167,12 +167,12 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">&nbsp;</label>
-                                <div class="d-flex gap-2">
+                                <div class="form-group">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="ri-search-line me-1"></i>Filter
+                                        <em class="icon ni ni-search"></em>
                                     </button>
                                     <a href="{{ route('admin.wallet-adjustments.index') }}" class="btn btn-outline-secondary">
-                                        <i class="ri-refresh-line"></i>
+                                        <em class="icon ni ni-reload"></em>
                                     </a>
                                 </div>
                             </div>
