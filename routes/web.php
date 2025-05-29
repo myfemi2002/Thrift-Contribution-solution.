@@ -240,18 +240,7 @@ use App\Http\Controllers\RoleWithPermissionController;
     // 🧍 All Customer Routes
     // ==========================
     Route::middleware(['auth', 'roles:user'])->group(function () {
-
-        // 👉 User Dashboard & Profile
-        // Route::controller(UserController::class)->group(function () {
-        //     Route::get('/user/dashboard', 'userDashboard')->name('user.dashboard');
-        //     Route::post('/user-logout', 'userDestroy')->name('user.logout');
-        //     Route::get('/user-profile', 'userProfile')->name('user.profile');
-        //     Route::post('/user-profile/store', 'userProfileStore')->name('user.profile.store');
-        //     Route::get('/user-change/password', 'userChangePassword')->name('user.change.password');
-        //     Route::post('/user-update/password', 'userUpdatePassword')->name('user.update.password');
-        // });
-        
-        
+       
         // Profile Routes
         Route::prefix('profile')->group(function () {
             Route::get('/', [UserController::class, 'showProfile'])->name('user.profile');

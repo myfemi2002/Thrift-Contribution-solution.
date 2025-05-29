@@ -104,7 +104,7 @@ class LoanWallet extends Model
         }
 
         $activeLoans = $this->activeLoans()->count();
-        if ($activeLoans >= 3) { // Maximum 3 active loans
+        if ($activeLoans >= 1) { // Maximum 1 active loans
             return [
                 'eligible' => false,
                 'reason' => 'You have reached the maximum number of active loans'
