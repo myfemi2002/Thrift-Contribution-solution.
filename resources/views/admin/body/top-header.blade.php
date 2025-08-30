@@ -3,7 +3,13 @@
                   <div class="container-fluid">
                      <div class="nk-header-wrap">
                         <div class="nk-menu-trigger d-xl-none ms-n1"><a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a></div>
-                        <div class="nk-header-brand d-xl-none"><a href="/" class="logo-link"><img class="logo-light logo-img" src="{{ $assetBase }}/images/logo.png" srcset="{{ $assetBase }}/images/logo2x.png 2x" alt="logo"><img class="logo-dark logo-img" src="{{ $assetBase }}/images/logo-dark.png" srcset="{{ $assetBase }}/images/logo-dark2x.png 2x" alt="logo-dark"><span class="nio-version">Crypto</span></a></div>
+                        
+<div class="nk-header-brand d-xl-none">
+   <a class="navbar-brand" href="#hero">
+      <i class="fas fa-piggy-bank me-2"></i>EagleSave
+   </a>
+</div>
+
                         <div class="nk-header-news d-none d-xl-block">
                            <div class="nk-news-list">
                               <a class="nk-news-item" href="#">
