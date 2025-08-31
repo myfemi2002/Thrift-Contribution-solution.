@@ -918,8 +918,20 @@
                             <a class="nav-link" href="#contact">Contact</a>
                         </li>
                     </ul>
-                    <div class="ms-lg-3 mt-3 mt-lg-0">
-                        <a href="#" class="btn btn-primary rounded-pill">Join Now</a>
+                    <div class="auth-btn ms-3">
+                        @auth
+                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                @csrf
+                                <a href="javascript:void(0)" onclick="event.preventDefault(); this.closest('form').submit();" 
+                                class="custom-btn logout-btn">
+                                    Logout <i class="fas fa-sign-out-alt"></i>
+                                </a>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" class="custom-btn login-btn">
+                                Login <i class="fas fa-sign-in-alt"></i>
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </div>
